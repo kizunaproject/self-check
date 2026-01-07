@@ -5,85 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>名も無き底辺のただのオッサンシリーズ</title>
     <style>
-        body { background-color: #000; color: #fff; font-family: "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 20px; text-align: center; }
+        body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 600px; margin: 0 auto; }
-        .map-bg { width: 100%; max-width: 400px; margin: 20px auto; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px #fff; }
-        h1 { color: #fff; font-size: 1.4rem; margin-bottom: 0.5rem; }
         .kizuna { color: #ff4d4d; font-weight: bold; font-size: 1.2rem; }
-        .intro, .outro { background: #111; padding: 20px; border-radius: 10px; margin: 20px 0; line-height: 1.8; border: 1px solid #444; text-align: left; }
-        .question-card { display: none; background: #1a1a1a; padding: 30px 20px; border-radius: 15px; min-height: 250px; margin-top: 20px; box-shadow: 0 0 20px rgba(255,255,255,0.1); border: 1px solid #333; }
+        .card { background: #1a1a1a; padding: 30px; border-radius: 10px; margin-top: 20px; }
+        .btn { background: #ccc; color: #000; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 5px; cursor: pointer; margin-top: 20px; width: 100%; }
+        .btn:active { background: #999; }
+        .question-card { display: none; }
         .active { display: block; }
-        .q-text { font-size: 1.3rem; margin-bottom: 40px; line-height: 1.6; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        .btn-group { display: flex; gap: 20px; justify-content: center; }
-        button { padding: 15px 40px; font-size: 1.1rem; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s; font-weight: bold; }
-        .btn-yes { background: #fff; color: #000; }
-        .btn-no { background: #444; color: #fff; }
-        button:hover { opacity: 0.8; transform: translateY(-2px); }
-        .footer-note { font-size: 0.8rem; color: #666; margin-top: 40px; }
-        .chapter-title { color: #ff4d4d; font-size: 1.1rem; margin-bottom: 5px; font-weight: bold; }
-        .theme-text { color: #aaa; font-size: 0.9rem; margin-bottom: 15px; }
-        .progress-bar { width: 100%; height: 4px; background: #333; margin-top: 10px; border-radius: 2px; }
-        .progress-fill { height: 100%; background: #ff4d4d; width: 0%; transition: 0.3s; }
+        .q-text { font-size: 1.3rem; margin-bottom: 30px; line-height: 1.6; }
+        .choice-btn { background: #444; color: #fff; border: none; padding: 15px; margin: 10px 0; width: 100%; border-radius: 5px; font-size: 1.1rem; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="kizuna">希心愛 - kizuna -</div>
+        <h1>名も無き底辺のただのオッサンシリーズ</h1>
+        
+        <div id="intro" class="card active">
+            <p>名も無き底辺のただのオッサンにもできた。なら――あなたにも、きっとできる。</p>
+            <p>これはテストじゃない。正解も不正解もない。ただ、自分の気持ちを確かめるだけ。</p>
+            <button class="btn" onclick="startCheck()">セルフCHECKを開始する</button>
+        </div>
 
-<div class="container">
-    <div class="kizuna">希心愛 - kizuna -</div>
-    <h1>名も無き底辺のただのオッサンシリーズ</h1>
-    <img src="https://bit.ly/3MABCHECK" alt="Japan Map" class="map-bg">
-    <div id="intro-screen">
-        <div class="intro">
-            <strong>名も無き底辺のただのオッサンにもできた。 なら――あなたにも、きっとできる。</strong><br><br>
-            これはテストじゃない。 正解も不正解もない。<br>
-            ただ、自分の気持ちを確かめるだけ。
+        <div id="q1" class="card question-card">
+            <div class="q-text">今の自分に「お疲れ様」と言ってあげたいですか？</div>
+            <button class="choice-btn" onclick="nextQ(2)">はい</button>
+            <button class="choice-btn" onclick="nextQ(2)">いいえ</button>
         </div>
-        <button class="btn-yes" onclick="startApp()">セルフCHECKを開始する</button>
-    </div>
-    <div id="question-area" class="question-card">
-        <div id="chapter-label" class="chapter-title"></div>
-        <div id="theme-label" class="theme-text"></div>
-        <div id="q-number" style="font-size: 0.8rem; color:#666; margin-bottom: 10px;"></div>
-        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
-        <div id="q-text" class="q-text"></div>
-        <div class="btn-group">
-            <button class="btn-yes" onclick="nextQ()">はい</button>
-            <button class="btn-no" onclick="nextQ()">いいえ</button>
-        </div>
-    </div>
-    <div id="comment-area" class="question-card">
-        <div id="comment-text" class="q-text" style="font-size: 1.1rem; text-align: left;"></div>
-        <button class="btn-yes" id="next-btn" onclick="nextChapter()">次の章へ</button>
-    </div>
-    <div id="outro-screen" class="question-card">
-        <div class="outro">
-            <strong>【締め】</strong><br><br>
-            疑問を持ち、調べ、考え、何かに気づけたなら――<br><br>
-            それができた今の自分を、ちゃんと褒めてあげてください。
-        </div>
-        <button class="btn-yes" onclick="location.reload()">最初からやり直す</button>
-    </div>
-    <div class="footer-note">
-        これは、あなたの立ち位置を確認する鏡です。
-    </div>
-</div>
 
-<script>
-    const chapters = [
-        {
-            title: "① 思考停止セルフCHECK", theme: "テーマ：考えてなかったかも？",
-            comment: "※「はい」でも「いいえ」でも、どちらでも大丈夫。 今ここで、少し立ち止まれたなら、それで十分。",
-            questions: [
-                "最近「なんでこうなるんやろ？」と思ったことある？", "よく分からんけど、そのままにしたことある？", "難しそうな話を「まぁええか」で終わらせたことある？", "自分には関係ないと思ったことある？", "あんまり考えずに決めてきたかも、と思った？",
-                "「考えてもムダ」と思ったことある？", "誰かの意見をそのまま信じたことある？", "分からんけど分かったフリしたことある？", "みんながそう言うから、で決めたことある？", "考えてた“つもり”やったかも、と思った？",
-                "考えるのって面倒やと思ってない？", "分からんって言いにくくなかった？", "立ち止まって考えたことある？", "考えなくて楽やったことある？", "それでも、今ここまで読んでる？",
-                "今日ひとつ疑問出てきた？", "すぐ答え出さなくてもええと思える？", "自分の感じ方、大事にしてええと思う？", "考えるだけでも意味あると思える？", "今の自分、ちょっとええやんと思える？"
-            ]
-        },
-        {
-            title: "② 気づきセルフCHECK", theme: "テーマ：しんどさの正体",
-            comment: "※しんどさの感じ方に、正解はありません。 気づけた自分を、今日は否定しなくていい。",
-            questions: [
-                "学校や家で、なんかしんどい日ある？", "理由は分からんけど気が重い時ある？", "友だちと比べて落ち込んだことある？", "自分が悪いんかなって思ったことある？", "その気持ち、前から続いてない？",
-                "がんばっても楽にならんことある？", "ガマンが当たり前になってない？", "本音を言わずに飲み込んでない？", "「みんなそうやから」で終わらせてない？", "それ、本当にあなただけの問題？",
-                "同じ状況なら誰でもしんどいと思わん？", "環境やルールのせいかもと思えた？", "自分のせいじ
+        <div id="result" class="card question-card">
+            <div class="q-text">チェック完了。</div>
+            <p>あなたは、あなたでいい。一歩進もうとしている自分を信じてください。</p>
+            <button class="btn" onclick="location.reload()">最初に戻る</button>
+        </div>
+    </div>
+
+    <script>
+        function startCheck() {
+            document.getElementById('intro').classList.remove('active');
+            document.getElementById('q1').classList.add('active');
+        }
+        function nextQ(num) {
+            document.getElementById('q1').classList.remove('active');
+            document.getElementById('result').classList.add('active');
+        }
+    </script>
+</body>
+</html>
