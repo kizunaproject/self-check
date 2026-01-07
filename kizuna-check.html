@@ -28,7 +28,7 @@
 </head>
 <body>
 <div class="container">
-    <img src="1000002837.jpg" alt="絆ロゴ" class="map-bg">
+    <img src="1000002837.JPG" alt="絆ロゴ" class="map-bg">
     <div class="kizuna">希心愛 - kizuna -</div>
     <h1>名も無き底辺のただのオッサンシリーズ</h1>
 
@@ -89,7 +89,6 @@
     let currentChapter = 0;
     let currentQuestion = 0;
 
-    // 画面読み込み時に保存データがあるか確認
     window.onload = function() {
         const savedCh = localStorage.getItem('kizuna_ch');
         const savedQ = localStorage.getItem('kizuna_q');
@@ -120,7 +119,6 @@
         document.getElementById('q-number').innerText = `第 ${currentChapter + 1} 章 / Q${currentQuestion + 1}`;
         document.getElementById('q-text').innerText = q;
         document.getElementById('progress-fill').style.width = ((currentQuestion + 1) / 20 * 100) + "%";
-        // 現在地を保存
         localStorage.setItem('kizuna_ch', currentChapter);
         localStorage.setItem('kizuna_q', currentQuestion);
     }
@@ -145,20 +143,4 @@
     function nextChapter() {
         currentChapter++;
         currentQuestion = 0;
-        document.getElementById('comment-area').classList.remove('active');
-        if (currentChapter < chapters.length) {
-            document.getElementById('question-area').classList.add('active');
-            showQuestion();
-        } else {
-            localStorage.clear(); // 最後まで行ったら消去
-            document.getElementById('outro-screen').classList.add('active');
-        }
-    }
-
-    function resetAndRestart() {
-        localStorage.clear();
-        location.reload();
-    }
-</script>
-</body>
-</html>
+        document.getElementById
