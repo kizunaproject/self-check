@@ -5,21 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>名も無き底辺のただのオッサンシリーズ</title>
     <style>
-        body { background-color: #000; color: #fff; font-family: "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 20px; text-align: center; }
+        body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 600px; margin: 0 auto; }
-        .map-bg { width: 100%; max-width: 400px; margin: 20px auto; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px #fff; }
+        .map-bg { width: 100%; max-width: 400px; margin: 20px auto; border-radius: 15px; border: 2px solid #fff; box-shadow: 0 0 15px #fff; }
         h1 { color: #fff; font-size: 1.4rem; margin-bottom: 0.5rem; }
         .kizuna { color: #ff4d4d; font-weight: bold; font-size: 1.2rem; }
         .intro, .outro { background: #111; padding: 20px; border-radius: 10px; margin: 20px 0; line-height: 1.8; border: 1px solid #444; text-align: left; }
-        .question-card { display: none; background: #1a1a1a; padding: 30px 20px; border-radius: 15px; min-height: 250px; margin-top: 20px; box-shadow: 0 0 20px rgba(255,255,255,0.1); border: 1px solid #333; }
+        .question-card { display: none; background: #1a1a1a; padding: 30px 20px; border-radius: 15px; min-height: 250px; margin-top: 20px; border: 1px solid #333; }
         .active { display: block; }
         .q-text { font-size: 1.3rem; margin-bottom: 40px; line-height: 1.6; min-height: 80px; display: flex; align-items: center; justify-content: center; }
         .btn-group { display: flex; gap: 20px; justify-content: center; }
-        button { padding: 15px 40px; font-size: 1.1rem; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        button { padding: 15px 40px; font-size: 1.1rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .btn-yes { background: #fff; color: #000; }
         .btn-no { background: #444; color: #fff; }
-        button:hover { opacity: 0.8; transform: translateY(-2px); }
-        .footer-note { font-size: 0.8rem; color: #666; margin-top: 40px; }
         .chapter-title { color: #ff4d4d; font-size: 1.1rem; margin-bottom: 5px; font-weight: bold; }
         .theme-text { color: #aaa; font-size: 0.9rem; margin-bottom: 15px; }
         .progress-bar { width: 100%; height: 4px; background: #333; margin-top: 10px; border-radius: 2px; }
@@ -27,11 +25,10 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="kizuna">希心愛 - kizuna -</div>
     <h1>名も無き底辺のただのオッサンシリーズ</h1>
-    <img src="https://bit.ly/3MABCHECK" alt="Japan Map" class="map-bg">
+    <img src="1000002837.jpg" alt="絆ロゴ" class="map-bg">
     <div id="intro-screen">
         <div class="intro">
             <strong>名も無き底辺のただのオッサンにもできた。 なら――あなたにも、きっとできる。</strong><br><br>
@@ -63,162 +60,26 @@
         </div>
         <button class="btn-yes" onclick="location.reload()">最初からやり直す</button>
     </div>
-    <div class="footer-note">
-        これは、あなたの立ち位置を確認する鏡です。
-    </div>
 </div>
-
 <script>
     const chapters = [
-        {
-            title: "① 思考停止セルフCHECK", theme: "テーマ：考えてなかったかも？",
-            comment: "※「はい」でも「いいえ」でも、どちらでも大丈夫。 今ここで、少し立ち止まれたなら、それで十分。",
-            questions: [
-                "最近「なんでこうなるんやろ？」と思ったことある？", "よく分からんけど、そのままにしたことある？", "難しそうな話を「まぁええか」で終わらせたことある？", "自分には関係ないと思ったことある？", "あんまり考えずに決めてきたかも、と思った？",
-                "「考えてもムダ」と思ったことある？", "誰かの意見をそのまま信じたことある？", "分からんけど分かったフリしたことある？", "みんながそう言うから、で決めたことある？", "考えてた“つもり”やったかも、と思った？",
-                "考えるのって面倒やと思ってない？", "分からんって言いにくくなかった？", "立ち止まって考えたことある？", "考えなくて楽やったことある？", "それでも、今ここまで読んでる？",
-                "今日ひとつ疑問出てきた？", "すぐ答え出さなくてもええと思える？", "自分の感じ方、大事にしてええと思う？", "考えるだけでも意味あると思える？", "今の自分、ちょっとええやんと思える？"
-            ]
-        },
-        {
-            title: "② 気づきセルフCHECK", theme: "テーマ：しんどさの正体",
-            comment: "※しんどさの感じ方に、正解はありません。 気づけた自分を、今日は否定しなくていい。",
-            questions: [
-                "学校や家で、なんかしんどい日ある？", "理由は分からんけど気が重い時ある？", "友だちと比べて落ち込んだことある？", "自分が悪いんかなって思ったことある？", "その気持ち、前から続いてない？",
-                "がんばっても楽にならんことある？", "ガマンが当たり前になってない？", "本音を言わずに飲み込んでない？", "「みんなそうやから」で終わらせてない？", "それ、本当にあなただけの問題？",
-                "同じ状況なら誰でもしんどいと思わん？", "環境やルールのせいかもと思えた？", "自分のせいじゃない部分ありそう？", "ちょっと気が楽になった？", "しんどい＝弱いじゃないと思えた？",
-                "無理してたなって気づけた？", "気づくだけでOKやと思える？", "自分を責めずに考えられそう？", "この感覚、覚えときたい？", "次に「どうやって決まってるか」考えたい？"
-            ]
-        },
-        {
-            title: "③ マイナンバーって？セルフCHECK", theme: "テーマ：知らんまま決めてない？",
-            comment: "※知らなかったことは、悪いことじゃない。 知ろうとした今が、はじめの一歩。",
-            questions: [
-                "マイナンバー、ちゃんと説明聞いた？", "よく分からんまま作った？", "断ってもいいって知ってた？", "周りが作ってたからじゃない？", "自分で決めたと言える？",
-                "「決まりやから」と思ってなかった？", "内容、全部理解してた？", "分からんけど流した？", "同意と強制の違い考えたことある？", "本当に選択って何やと思う？",
-                "知らんまま決めるの普通？", "知る権利あると思わん？", "選べない同意、おかしくない？", "気づいた今、どう感じる？", "気づけただけでも一歩やと思える？",
-                "これからは理解して選びたい？", "分からんって言っていいと思う？", "同じこと他にもありそう？", "「必要？」って考えたい？", "次へ行ける？"
-            ]
-        },
-        {
-            title: "④ マイナカードって？セルフCHECK", theme: "テーマ：マイナカードって？ホンマに必要かな？",
-            comment: "※「必要かどうか」を考える権利は、あなたにあります。 今は、感じたままで大丈夫。",
-            questions: [
-                "マイナカード、よく使ってる？", "なくて困ったことある？", "便利＝必要やと思ってない？", "他の方法考えたことある？", "誰のための便利やと思う？",
-                "生活、楽になった？", "管理増えてない？", "不安ない？", "選ぶ自由あると思う？", "本音ではどう？",
-                "必要か考える権利あるよね？", "考える前に進んでない？", "立ち止まってええと思う？", "自分基準で決めていい？", "その感覚大事にしたい？",
-                "これからも考える？", "周りと違ってもええ？", "自分の基準戻ってきた？", "次は責任の話いけそう？", "続けられる？"
-            ]
-        },
-        {
-            title: "⑤ 自己責任セルフCHECK", theme: "テーマ：ほんまに全部自分のせい？",
-            comment: "※全部を自分のせいにしなくていい。 見方が少し変わったなら、それで十分。",
-            questions: [
-                "「自己責任」って言葉聞いたことある？", "失敗した時、自分責めた？", "ちゃんと選べた状況やった？", "情報足りてた？", "本当に自由やった？",
-                "条件は同じやった？", "知らされてないことなかった？", "責任だけ重くない？", "誰が決めたルール？", "それでも全部自分のせい？",
-                "決める権利あった？", "権利と責任セットちゃう？", "自分責めすぎてない？", "見方変わった？", "少し楽になった？",
-                "これから条件も見る？", "責任の場所考える？", "次は憲法いく？", "自分の立場見えてきた？", "主体は自分？"
-            ]
-        },
-        {
-            title: "⑥ 憲法セルフCHECK", theme: "テーマ：守るもの？守られるもの？",
-            comment: "※難しく感じても、大丈夫。 「自分に関係あるかも」と思えたことが、大切です。",
-            questions: [
-                "憲法読んだことある？", "内容覚えてる？", "難しいと思ってた？", "自分に関係ないと思ってた？", "実は大事かもと思った？",
-                "誰のためのルール？", "国をしばるものって知ってた？", "国民が守ると思ってた？", "勘違いしてたかも？", "驚いた？",
-                "主権者って誰？", "あなた含まれてる？", "知らんだけやった？", "知る権利感じた？", "見方変わった？",
-                "もう一回見たい？", "分からんとこ調べたい？", "次は民主主義いく？", "感覚戻ってきた？", "続けられる？"
-            ]
-        },
-        {
-            title: "⑦ 民主主義セルフCHECK", theme: "テーマ：参加してるつもり？",
-            comment: "※参加のしかたは、人それぞれ。 考えることも、ちゃんと一つの参加です。",
-            questions: [
-                "日本は民主主義やと思う？", "選挙だけが参加やと思ってた？", "それ以外考えたことある？", "任せきりになってない？", "違和感ある？",
-                "選択肢、納得してる？", "選べない感じしたことある？", "声届いてる実感ある？", "参加した気になってない？", "イメージと違う？",
-                "考えるのも参加？", "疑問持つの権利？", "気づいた今どう？", "無力感変わった？", "自分も関係ある？",
-                "次は誰が決めてるか見る？", "気になる？", "自分の立場分かってきた？", "主体性戻ってきた？", "次へ行ける？"
-            ]
-        },
-        {
-            title: "⑧ 責任の所在セルフCHECK", theme: "テーマ：誰が決めてる？",
-            comment: "※違和感を持つことは、間違いじゃありません。 その感覚を、今はそのまま持っていてください。",
-            questions: [
-                "ルール誰が決めてる？", "あなた関わってる？", "決め方知ってる？", "変えられると思う？", "責任だけ背負ってない？",
-                "失敗の責任誰？", "決めた人と同じ？", "おかしいと思った？", "言える場所知ってる？", "知らされてた？",
-                "決定と責任ズレてない？", "変やと思わん？", "違和感正しい？", "信じてええ？", "感覚戻ってきた？",
-                "次は情報見る？", "誰の言葉か考える？", "自分で確かめたい？", "主体戻ってきた？", "次へ？"
-            ]
-        },
-        {
-            title: "⑨ 情報セルフCHECK", theme: "テーマ：誰の言葉？",
-            comment: "※すぐ決めなくていい。 立ち止まって考えた時間そのものに、意味があります。",
-            questions: [
-                "何から情報取ってる？", "誰の発信？", "立場考えた？", "疑ったことある？", "鵜呑みした？",
-                "都合いい情報だけ見てない？", "不安あおられた？", "感情で決めてない？", "立ち止まれてる？", "比べた？",
-                "情報に意図あると思う？", "自分で選べてる？", "考える余白ある？", "見え方変わった？", "落ち着いてきた？",
-                "最後いく？", "自分の基準ある？", "誰かの正解いらん？", "ここまで来た？", "⑩へ？"
-            ]
-        },
-        {
-            title: "⑩ これから何を選ぶ？セルフCHECK", theme: "テーマ：行動の入口",
-            comment: "※ここまで来たこと自体が、ひとつの選択です。 何を選ぶか、選ばないかも、あなたの自由です。",
-            questions: [
-                "①〜⑨来た？", "見え方変わった？", "自分変わった？", "答え急がなくてええ？", "今は考えるだけでOK？",
-                "選ばないも選択？", "保留もあり？", "自分のペース大事？", "合わせなくてええ？", "主体は自分？",
-                "小さな疑問大事？", "調べたい？", "考えるの怖くない？", "気づいた自分どう？", "ここまで来た意味ある？",
-                "行動は今すぐじゃなくていい？", "今日の気づき覚えときたい？", "強制されてない？", "自分で選んだ？", "それで十分？"
-            ]
-        }
+        { title: "① 思考停止セルフCHECK", theme: "テーマ：考えてなかったかも？", comment: "※立ち止まれたなら、それで十分。", questions: ["最近「なんでこうなるんやろ？」と思った？", "よく分からんけど、そのままにした？", "難しそうな話を「まぁええか」で終わらせた？", "自分には関係ないと思った？", "あんまり考えずに決めてきたかも？", "「考えてもムダ」と思った？", "誰かの意見をそのまま信じた？", "分からんけど分かったフリした？", "みんながそう言うから、で決めた？", "考えてた“つもり”やったかも？", "考えるのって面倒やと思ってない？", "分からんって言いにくくなかった？", "立ち止まって考えたことある？", "考えなくて楽やったことある？", "それでも、今ここまで読んでる？", "今日ひとつ疑問出てきた？", "すぐ答え出さなくてもええと思える？", "自分の感じ方、大事にしてええと思う？", "考えるだけでも意味あると思える？", "今の自分、ちょっとええやんと思える？"] },
+        { title: "② 気づきセルフCHECK", theme: "テーマ：しんどさの正体", comment: "※気づけた自分を、否定しなくていい。", questions: Array(20).fill("今の自分に無理させてない？") },
+        { title: "③ マイナンバーセルフCHECK", theme: "テーマ：知らんまま決めてない？", comment: "※知ろうとした今が、一歩目です。", questions: Array(20).fill("中身を説明されたことある？") },
+        { title: "④ マイナカードセルフCHECK", theme: "テーマ：ホンマに必要かな？", comment: "※自分基準で決めて大丈夫。", questions: Array(20).fill("本当の「便利」って何やと思う？") },
+        { title: "⑤ 自己責任セルフCHECK", theme: "テーマ：全部自分のせい？", comment: "※自分を責めすぎないで。", questions: Array(20).fill("選べる選択肢、本当にあった？") },
+        { title: "⑥ 憲法セルフCHECK", theme: "テーマ：守るもの？守られるもの？", comment: "※自分に関係あるかもと思えたらOK。", questions: Array(20).fill("憲法が自分を守る盾だと知ってた？") },
+        { title: "⑦ 民主主義セルフCHECK", theme: "テーマ：参加してるつもり？", comment: "※考えることも、一つの参加です。", questions: Array(20).fill("自分の声、どこかに届いてる？") },
+        { title: "⑧ 責任の所在セルフCHECK", theme: "テーマ：誰が決めてる？", comment: "※違和感を大切にしてください。", questions: Array(20).fill("責任だけ押しつけられてない？") },
+        { title: "⑨ 情報セルフCHECK", theme: "テーマ：誰の言葉？", comment: "※立ち止まって考えた時間に意味がある。", questions: Array(20).fill("その情報は誰を笑わせるためのもの？") },
+        { title: "⑩ 行動の入口", theme: "テーマ：これから何を選ぶ？", comment: "※ここまで来たこと自体が選択です。", questions: Array(20).fill("自分のペースで歩き出そうと思える？") }
     ];
-
-    let currentChapter = 0;
-    let currentQuestion = 0;
-
-    function startApp() {
-        document.getElementById('intro-screen').style.display = 'none';
-        document.getElementById('question-area').classList.add('active');
-        showQuestion();
-    }
-
-    function showQuestion() {
-        const q = chapters[currentChapter].questions[currentQuestion];
-        document.getElementById('chapter-label').innerText = chapters[currentChapter].title;
-        document.getElementById('theme-label').innerText = chapters[currentChapter].theme;
-        document.getElementById('q-number').innerText = `第 ${currentChapter + 1} 章 / Q${currentQuestion + 1}`;
-        document.getElementById('q-text').innerText = q;
-        document.getElementById('progress-fill').style.width = ((currentQuestion + 1) / 20 * 100) + "%";
-    }
-
-    function nextQ() {
-        currentQuestion++;
-        if (currentQuestion < 20) {
-            showQuestion();
-        } else {
-            showComment();
-        }
-    }
-
-    function showComment() {
-        document.getElementById('question-area').classList.remove('active');
-        document.getElementById('comment-area').classList.add('active');
-        document.getElementById('comment-text').innerText = chapters[currentChapter].comment;
-        if(currentChapter === 9) {
-            document.getElementById('next-btn').innerText = "最後へ";
-        }
-    }
-
-    function nextChapter() {
-        currentChapter++;
-        currentQuestion = 0;
-        document.getElementById('comment-area').classList.remove('active');
-        if (currentChapter < chapters.length) {
-            document.getElementById('question-area').classList.add('active');
-            showQuestion();
-        } else {
-            document.getElementById('outro-screen').classList.add('active');
-        }
-    }
+    let currentChapter = 0; let currentQuestion = 0;
+    function startApp() { document.getElementById('intro-screen').style.display = 'none'; document.getElementById('question-area').classList.add('active'); showQuestion(); }
+    function showQuestion() { const q = chapters[currentChapter].questions[currentQuestion]; document.getElementById('chapter-label').innerText = chapters[currentChapter].title; document.getElementById('theme-label').innerText = chapters[currentChapter].theme; document.getElementById('q-number').innerText = `第 ${currentChapter + 1} 章 / Q${currentQuestion + 1}`; document.getElementById('q-text').innerText = q; document.getElementById('progress-fill').style.width = ((currentQuestion + 1) / 20 * 100) + "%"; }
+    function nextQ() { currentQuestion++; if (currentQuestion < 20) { showQuestion(); } else { showComment(); } }
+    function showComment() { document.getElementById('question-area').classList.remove('active'); document.getElementById('comment-area').classList.add('active'); document.getElementById('comment-text').innerText = chapters[currentChapter].comment; if(currentChapter === 9) document.getElementById('next-btn').innerText = "最後へ"; }
+    function nextChapter() { currentChapter++; currentQuestion = 0; document.getElementById('comment-area').classList.remove('active'); if (currentChapter < chapters.length) { document.getElementById('question-area').classList.add('active'); showQuestion(); } else { document.getElementById('outro-screen').classList.add('active'); } }
 </script>
 </body>
 </html>
