@@ -7,7 +7,6 @@
     <style>
         body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 600px; margin: 0 auto; }
-        /* ロゴを大きく、迫力あるサイズに */
         .map-bg { width: 100%; max-width: 500px; margin: 10px auto; border-radius: 15px; border: 2px solid #fff; box-shadow: 0 0 20px #fff; }
         h1 { color: #fff; font-size: 1.4rem; margin-bottom: 0.5rem; }
         .kizuna { color: #ff4d4d; font-weight: bold; font-size: 1.5rem; margin-top: 10px; }
@@ -30,19 +29,19 @@
 <body>
 <div class="container">
     <img src="KIZUNACHECK2026.jpg" alt="絆ロゴ" class="map-bg">
-    
     <div class="kizuna">希心愛 - kizuna -</div>
     <h1>名も無き底辺のただのオッサンシリーズ</h1>
 
     <div id="intro-screen">
         <div class="intro">
             <strong>名も無き底辺のただのオッサンにもできた。 なら――あなたにも、きっとできる。</strong><br><br>
-            これはテストじゃない。 正解も不正解もない。<br>
-            ただ、自分の気持ちを確かめるだけ。
+            これは全10章・200問のセルフチェックです。<br>
+            <strong>※途中で画面を閉じても、オートセーブ機能で続きから再開できます。</strong><br><br>
+            正解も不正解もない。ただ、自分の気持ちを確かめるだけ。
         </div>
         <div class="btn-group">
             <button class="btn-yes" onclick="startApp(false)">最初から開始する</button>
-            <button id="resume-btn" class="btn-blue" style="display:none;" onclick="startApp(true)">前回の続きから再開</button>
+            <button id="resume-btn" class="btn-blue" style="display:none;" onclick="startApp(true)">続きから再開</button>
         </div>
     </div>
 
