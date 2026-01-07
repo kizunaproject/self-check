@@ -7,6 +7,7 @@
     <style>
         body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 600px; margin: 0 auto; }
+        /* ロゴを大きく、迫力あるサイズに */
         .map-bg { width: 100%; max-width: 500px; margin: 10px auto; border-radius: 15px; border: 2px solid #fff; box-shadow: 0 0 20px #fff; }
         h1 { color: #fff; font-size: 1.4rem; margin-bottom: 0.5rem; }
         .kizuna { color: #ff4d4d; font-weight: bold; font-size: 1.5rem; margin-top: 10px; }
@@ -28,7 +29,8 @@
 </head>
 <body>
 <div class="container">
-    <img src="1000002837.JPG" alt="絆ロゴ" class="map-bg">
+    <img src="KIZUNACHECK2026.jpg" alt="絆ロゴ" class="map-bg">
+    
     <div class="kizuna">希心愛 - kizuna -</div>
     <h1>名も無き底辺のただのオッサンシリーズ</h1>
 
@@ -125,11 +127,7 @@
 
     function nextQ() {
         currentQuestion++;
-        if (currentQuestion < 20) {
-            showQuestion();
-        } else {
-            showComment();
-        }
+        if (currentQuestion < 20) { showQuestion(); } else { showComment(); }
     }
 
     function showComment() {
@@ -143,4 +141,20 @@
     function nextChapter() {
         currentChapter++;
         currentQuestion = 0;
-        document.getElementById
+        document.getElementById('comment-area').classList.remove('active');
+        if (currentChapter < chapters.length) {
+            document.getElementById('question-area').classList.add('active');
+            showQuestion();
+        } else {
+            localStorage.clear();
+            document.getElementById('outro-screen').classList.add('active');
+        }
+    }
+
+    function resetAndRestart() {
+        localStorage.clear();
+        location.reload();
+    }
+</script>
+</body>
+</html>
