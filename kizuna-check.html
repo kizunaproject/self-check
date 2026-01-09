@@ -14,7 +14,6 @@
         .question-card { display: none; background: #1a1a1a; padding: 30px 20px; border-radius: 15px; min-height: 250px; margin-top: 20px; border: 1px solid #333; }
         .active { display: block; }
         .q-text { font-size: 1.4rem; margin-bottom: 40px; line-height: 1.6; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        .btn-group { display: flex; flex-direction: column; gap: 15px; align-items: center; }
         .row-btn { display: flex; gap: 20px; justify-content: center; width: 100%; }
         button { padding: 18px 40px; font-size: 1.2rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 200px; }
         .btn-yes { background: #fff; color: #000; }
@@ -24,6 +23,14 @@
         .theme-text { color: #aaa; font-size: 1.0rem; margin-bottom: 15px; }
         .progress-bar { width: 100%; height: 6px; background: #333; margin-top: 10px; border-radius: 3px; }
         .progress-fill { height: 100%; background: #ff4d4d; width: 0%; transition: 0.3s; }
+        
+        /* 追加：結果の読み方セクションのスタイル */
+        .interpretation { margin-top: 40px; padding-top: 30px; border-top: 1px dashed #555; text-align: left; font-size: 0.95rem; }
+        .status-box { background: #222; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #555; }
+        .status-a { border-left-color: #4CAF50; }
+        .status-b { border-left-color: #FFEB3B; }
+        .status-c { border-left-color: #2196F3; }
+        .status-title { font-weight: bold; margin-bottom: 5px; display: block; }
     </style>
 </head>
 <body>
@@ -41,7 +48,7 @@
             <span style="color: #ffb3b3;">※これは特定の思想を押し付けるものではありません。<br>
             あなた自身が「疑問を持ち、考える」ためのセルフチェックです。</span>
         </div>
-        <div class="btn-group">
+        <div class="btn-group" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
             <button class="btn-yes" onclick="startApp(false)">最初から開始する</button>
             <button id="resume-btn" class="btn-blue" style="display:none;" onclick="startApp(true)">続きから再開</button>
         </div>
@@ -71,7 +78,39 @@
             疑問を持ち、調べ、考え、何かに気づけたなら――<br><br>
             それができた今の自分を、ちゃんと褒めてあげてください。
         </div>
-        <button class="btn-yes" onclick="resetAndRestart()">最初からやり直す</button>
+
+        <div class="interpretation">
+            <h3 style="color: #ffb3b3; font-size: 1.1rem; border-bottom: 1px solid #ffb3b3; display: inline-block; padding-bottom: 5px;">🧠 このチェック結果の「読み方」について</h3>
+            <p>このセルフCHECKは、あなたを特定の型に分類するためのものではありません。<br>
+            人は、疲れ・環境・立場によって考え方の“状態”が行き来します。<br>
+            もし今の自分を少し整理してみたくなったら、下の考え方を参考として読んでみてください。<br>
+            <span style="color: #888; font-size: 0.85rem;">👉 ※読まなくても問題ありません。</span></p>
+
+            <div class="status-box status-a">
+                <span class="status-title">🟢 違和感に気づきやすい状態のとき</span>
+                「それって本当？」と考える。すぐに答えを信じない。<br>
+                👉 流されにくい反面、一人で抱え込みやすいこともあります。
+            </div>
+
+            <div class="status-box status-b">
+                <span class="status-title">🟡 周りと調和している状態のとき</span>
+                気になるけど深く考えない。周りの空気に影響されやすい。<br>
+                👉 多くの人が行き来する、ごく自然な状態です。
+            </div>
+
+            <div class="status-box status-c">
+                <span class="status-title">🔵 心を休めている状態のとき</span>
+                「どうでもいい」と感じる。考える余裕がない。<br>
+                👉 これは「ダメ」な状態ではありません。心が自分を守っているサインです。疲れているときほど、ここに出やすくなります。
+            </div>
+
+            <p style="margin-top: 20px; font-weight: bold;">
+                どの状態であっても、気づいた時点で、もう次に進んでいます。<br>
+                「今の自分は、どんな状態なんだろう？」そう考えられたなら、このチェックは役目を果たしています。
+            </p>
+        </div>
+
+        <button class="btn-yes" onclick="resetAndRestart()" style="margin-top: 30px;">最初からやり直す</button>
     </div>
 </div>
 
