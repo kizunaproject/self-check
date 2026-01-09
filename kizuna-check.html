@@ -23,14 +23,13 @@
         .theme-text { color: #aaa; font-size: 1.0rem; margin-bottom: 15px; }
         .progress-bar { width: 100%; height: 6px; background: #333; margin-top: 10px; border-radius: 3px; }
         .progress-fill { height: 100%; background: #ff4d4d; width: 0%; transition: 0.3s; }
-        
-        /* 追加：結果の読み方セクションのスタイル */
         .interpretation { margin-top: 40px; padding-top: 30px; border-top: 1px dashed #555; text-align: left; font-size: 0.95rem; }
         .status-box { background: #222; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #555; }
         .status-a { border-left-color: #4CAF50; }
         .status-b { border-left-color: #FFEB3B; }
         .status-c { border-left-color: #2196F3; }
         .status-title { font-weight: bold; margin-bottom: 5px; display: block; }
+        .result-hint { background: #ff4d4d; color: #fff; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: bold; font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -61,8 +60,8 @@
         <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
         <div id="q-text" class="q-text"></div>
         <div class="row-btn">
-            <button class="btn-yes" onclick="nextQ()">はい</button>
-            <button class="btn-no" onclick="nextQ()">いいえ</button>
+            <button class="btn-yes" onclick="handleAnswer(true)">はい</button>
+            <button class="btn-no" onclick="handleAnswer(false)">いいえ</button>
         </div>
     </div>
 
@@ -72,45 +71,42 @@
         <button class="btn-yes" id="next-btn" onclick="nextChapter()" style="width: 250px;">次の章へ進む</button>
     </div>
 
-    <div id="outro-screen" class="question-card">
+    <div id="outro-screen" class="question-card" style="text-align: left;">
         <div class="outro">
             <strong>【締め：全200問 読了】</strong><br><br>
             疑問を持ち、調べ、考え、何かに気づけたなら――<br><br>
             それができた今の自分を、ちゃんと褒めてあげてください。
         </div>
 
+        <div id="personal-result" class="result-hint"></div>
+
         <div class="interpretation">
             <h3 style="color: #ffb3b3; font-size: 1.1rem; border-bottom: 1px solid #ffb3b3; display: inline-block; padding-bottom: 5px;">🧠 このチェック結果の「読み方」について</h3>
-            <p>このセルフCHECKは、あなたを特定の型に分類するためのものではありません。<br>
-            人は、疲れ・環境・立場によって考え方の“状態”が行き来します。<br>
-            もし今の自分を少し整理してみたくなったら、下の考え方を参考として読んでみてください。<br>
-            <span style="color: #888; font-size: 0.85rem;">👉 ※読まなくても問題ありません。</span></p>
+            <p>このセルフCHECKは、あなたを特定の型に分類するためのものではありません。
+            人は、疲れ・環境・立場によって考え方の“状態”が行き来します。</p>
 
             <div class="status-box status-a">
-                <span class="status-title">🟢 違和感に気づきやすい状態のとき</span>
-                「それって本当？」と考える。すぐに答えを信じない。<br>
-                👉 流されにくい反面、一人で抱え込みやすいこともあります。
+                <span class="status-title">🟢 違和感に気づきやすい状態（A）</span>
+                「それって本当？」と考える。すぐに答えを信じない。流されにくい反面、一人で抱え込みやすいこともあります。
             </div>
 
             <div class="status-box status-b">
-                <span class="status-title">🟡 周りと調和している状態のとき</span>
-                気になるけど深く考えない。周りの空気に影響されやすい。<br>
-                👉 多くの人が行き来する、ごく自然な状態です。
+                <span class="status-title">🟡 周りと調和している状態（B）</span>
+                気になるけど深く考えない。周りの空気に影響されやすい。多くの人が行き来する、ごく自然な状態です。
             </div>
 
             <div class="status-box status-c">
-                <span class="status-title">🔵 心を休めている状態のとき</span>
-                「どうでもいい」と感じる。考える余裕がない。<br>
-                👉 これは「ダメ」な状態ではありません。心が自分を守っているサインです。疲れているときほど、ここに出やすくなります。
+                <span class="status-title">🔵 心を休めている状態（C）</span>
+                「どうでもいい」と感じる。考える余裕がない。心が自分を守っているサインです。疲れているときほど、ここに出やすくなります。
             </div>
 
-            <p style="margin-top: 20px; font-weight: bold;">
+            <p style="margin-top: 20px; font-weight: bold; text-align: center;">
                 どの状態であっても、気づいた時点で、もう次に進んでいます。<br>
-                「今の自分は、どんな状態なんだろう？」そう考えられたなら、このチェックは役目を果たしています。
+                正解も不正解もありません。
             </p>
         </div>
 
-        <button class="btn-yes" onclick="resetAndRestart()" style="margin-top: 30px;">最初からやり直す</button>
+        <button class="btn-yes" onclick="resetAndRestart()" style="margin-top: 30px; width: 100%;">最初からやり直す</button>
     </div>
 </div>
 
@@ -130,25 +126,30 @@
 
     let currentChapter = 0;
     let currentQuestion = 0;
+    let yesCount = 0; // 「はい」の合計をカウントする変数
 
     window.onload = function() {
         const savedCh = localStorage.getItem('kizuna_ch');
         const savedQ = localStorage.getItem('kizuna_q');
+        const savedYes = localStorage.getItem('kizuna_yes');
         if (savedCh !== null) {
             const resumeBtn = document.getElementById('resume-btn');
             resumeBtn.style.display = 'block';
+            yesCount = parseInt(savedYes) || 0;
             resumeBtn.innerText = `第${parseInt(savedCh)+1}章 Q${parseInt(savedQ)+1} から再開`;
         }
     };
 
     function startApp(resume) {
-        if (resume) {
-            currentChapter = parseInt(localStorage.getItem('kizuna_ch')) || 0;
-            currentQuestion = parseInt(localStorage.getItem('kizuna_q')) || 0;
-        } else {
+        if (!resume) {
             localStorage.clear();
             currentChapter = 0;
             currentQuestion = 0;
+            yesCount = 0;
+        } else {
+            currentChapter = parseInt(localStorage.getItem('kizuna_ch')) || 0;
+            currentQuestion = parseInt(localStorage.getItem('kizuna_q')) || 0;
+            yesCount = parseInt(localStorage.getItem('kizuna_yes')) || 0;
         }
         document.getElementById('intro-screen').style.display = 'none';
         document.getElementById('question-area').classList.add('active');
@@ -164,9 +165,11 @@
         document.getElementById('progress-fill').style.width = ((currentQuestion + 1) / 20 * 100) + "%";
         localStorage.setItem('kizuna_ch', currentChapter);
         localStorage.setItem('kizuna_q', currentQuestion);
+        localStorage.setItem('kizuna_yes', yesCount);
     }
 
-    function nextQ() {
+    function handleAnswer(isYes) {
+        if (isYes) yesCount++;
         currentQuestion++;
         if (currentQuestion < 20) {
             showQuestion();
@@ -193,9 +196,24 @@
             document.getElementById('question-area').classList.add('active');
             showQuestion();
         } else {
-            localStorage.clear();
-            document.getElementById('outro-screen').classList.add('active');
+            showFinalResult();
         }
+    }
+
+    function showFinalResult() {
+        localStorage.clear();
+        document.getElementById('outro-screen').classList.add('active');
+        
+        // 判定ロジック (200問中)
+        let resultText = "";
+        if (yesCount >= 130) {
+            resultText = "今のあなたは「🟢 違和感に気づきやすい状態（A）」に近いようです。";
+        } else if (yesCount >= 70) {
+            resultText = "今のあなたは「🟡 周りと調和している状態（B）」に近いようです。";
+        } else {
+            resultText = "今のあなたは「🔵 心を休めている状態（C）」に近いようです。";
+        }
+        document.getElementById('personal-result').innerText = resultText;
     }
 
     function resetAndRestart() {
