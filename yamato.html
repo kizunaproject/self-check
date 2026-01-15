@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倭之魂：檻を壊し、自らを守る十章</title>
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --text-color: #e0e0e0;
+            --accent-color: #d4af37; /* 落ち着いた金 */
+            --border-color: #333;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        #container {
+            max-width: 600px;
+            width: 90%;
+            margin: 40px 0;
+            padding: 20px;
+        }
+        .screen { display: none; }
+        .active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        h1 { font-size: 1.4rem; border-left: 4px solid var(--accent-color); padding-left: 10px; margin-bottom: 30px; }
+        .intro-text { white-space: pre-wrap; margin-bottom: 30px; font-size: 0.95rem; }
+        .chapter-title { color: var(--accent-color); font-weight: bold; margin-bottom: 5px; }
+        .chapter-concept { font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .body-text { font-size: 0.9rem; margin-bottom: 20px; background: #1a1a1a; padding: 15px; border-radius: 5px; }
+        .child-text { font-size: 0.85rem; color: #aaa; margin-bottom: 20px; font-style: italic; }
+        
+        .question-box { margin: 20px 0; padding: 15px; border: 1px dashed #444; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        button {
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        button:hover { background: var(--accent-color); color: #000; }
+        
+        .mini-check { margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; }
+        .status-btn { background: #333; border: none; color: #ccc; margin-bottom: 5px; text-align: left; }
+        .status-btn:hover { background: #444; }
+
+        #result { white-space: pre-wrap; }
+        .footer { margin-top: 50px; font-size: 0.8rem; text-align: center; color: #666; }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <div id="intro" class="screen active">
+        <h1>【倭之魂：檻を壊し、自らを守る十章】</h1>
+        <div class="intro-text">
+倭（やまと）とは何か！？
+
+倭とは、
+人が禾（いね＝命の糧）を食し、
+女（＝自分以外の他者）と共に生きる道。
+
+奪い合う生き方ではない。
+誰かに従うだけの生き方でもない。
+自分で考えて、自分で選択し、他者と守り合いながら生きる力を
+自分の中に取り戻す道である。
+        </div>
+        <button onclick="nextScreen('q1')">自らの魂をCHECKする</button>
+    </div>
+
+    <div id="quiz-area"></div>
+
+    <div id="outro" class="screen">
+        <h1 id="outro-title">希心愛（きしんあい）とは。</h1>
+        <div class="intro-text">
+希心愛＝絆
+互いを愛しみ、互いの幸福を、心から希い願うこと。
+それが、倭之魂の行き着く先や。
+
+🔚 最終セルフ確認
+この十章を読み終えた今の自分に、一つだけ丸をつけてほしい。
+        </div>
+        <div class="btn-group">
+            <button onclick="finish('自分に戻したい')">誰かに任せていた人生を、自分に戻したい</button>
+            <button onclick="finish('考えることはやめない')">まだ怖いが、考えることはやめない</button>
+            <button onclick="finish('何も変わらなくていい')">何も変わらなくていいと思う。</button>
+        </div>
+    </div>
+
+    <div id="final-result" class="screen">
+        <h1>診断結果</h1>
+        <div id="result-text" class="intro-text"></div>
+        <button onclick="location.reload()">もう一度自分を見つめる</button>
+        <div class="footer">
+            2026年1月15日<br>名も無き底辺の ただのオッサンより
+        </div>
+    </div>
+</div>
+
+<script>
+    const chapters = [
+        {
+            title: "第1章：憲法の嘘", concept: "「守ってもらえる」という幻想",
+            body: "憲法や法律は自動的に守る「バリア」ではない。守る覚悟を持たない人は、危機のときに「待つしかない側」になる。",
+            child: "説明書を読むだけではゲームは守ってくれない。最後に頼れるのは自分の判断。",
+            questions: ["国が必ず守ってくれると思っている", "自分で守ることを考えたことがない", "考えるのは偉い人の仕事だと思う"]
+        },
+        {
+            title: "第2章：民主主義の嘘", concept: "「多数＝正解」という罠",
+            body: "考えない民主主義は、ただの空気読みゲームになる。",
+            child: "クラスで多い意見が正しいとは限らない。声が大きい人が正しいわけじゃない。",
+            questions: ["テレビやSNSをそのまま信じる", "周りと違う意見が怖い", "みんなが言うから決める"]
+        },
+        {
+            title: "第3章：税金の嘘", concept: "「みんなのため」という言葉",
+            body: "知らないお金は、知らない所へ流れる。使い道を考えなければ判断力も失っていく。",
+            child: "何に使われたか分からないとお金も考えも取られる。",
+            questions: ["税金の使い道を考えない", "払うしかないと思っている", "文句は悪いことだと思う"]
+        },
+        {
+            title: "第4章：労働の嘘", concept: "「我慢すれば報われる」",
+            body: "我慢は美徳ではない。壊れるまで使う仕組みがあるだけだ。限界を越えても働け、という社会は、人を道具として扱っている。",
+            child: "電池は使いすぎると壊れる。人も同じ。壊れてからでは遅い。",
+            questions: ["しんどくても我慢する", "辞めたら負けだと思う", "自分の代わりはいないと思う"]
+        },
+        {
+            title: "第5章：自己責任の嘘", concept: "「全部お前のせい」",
+            body: "失敗をすべて個人のせいにすると、仕組みの問題が見えなくなる。責め合う社会は、誰も助けられなくなる。",
+            child: "一人だけが悪いとは限らない。ルールが悪いこともある。",
+            questions: ["失敗は努力不足だと思う", "困ってる人にイラつく", "助けは甘えだと思う"]
+        },
+        {
+            title: "第6章：教育の嘘", concept: "「教えられたことが全て」",
+            body: "学校は「考え方」より「言われた通りにする力」を教えがちだ。正解だけを探すと、自分で考えなくなる。",
+            child: "答えは一つとは限らない。質問していい。間違えてもいい。",
+            questions: ["正解は一つだと思う", "質問が怖い", "権威は絶対だと思う"]
+        },
+        {
+            title: "第7章：平和の嘘", concept: "「何もしなくても続く」",
+            body: "平和は放っておけば続くものではない。保たなければ壊れる。知らないふりは、壊れるのを早めるだけだ。",
+            child: "見ないふりは解決じゃない。声を出すことも大事。",
+            questions: ["平和は当たり前だと思う", "面倒な話から逃げる", "知らなくても困らないと思う"]
+        },
+        {
+            title: "第8章：メディアの嘘", concept: "「中立」という仮面",
+            body: "伝えない自由は、伝える自由より強い。何を言わないかで、人の考えは簡単に変わる。",
+            child: "全部を教えてくれるわけじゃない。選ばれた情報だけ見ている。",
+            questions: ["ニュースは全部事実だと思う", "不快な情報は見ない", "疑うのは悪だと思う"]
+        },
+        {
+            title: "第9章：便利さの嘘", concept: "「楽になる代わりに」",
+            body: "便利になるほど、人は考えなくなる。楽と自由は、同じではない。",
+            child: "自動は楽だけど選べない。自由は少し面倒。",
+            questions: ["便利なら何でもいい", "考えなくていいのが楽", "個人情報は仕方ない"]
+        },
+        {
+            title: "第10章：買収の嘘", concept: "「魂のコントローラー」",
+            body: "安心・お金・立場と引き換えに、人は「選ぶ力」を手放す。気づいたとき、人生のハンドルは他人の手にある。",
+            child: "ゲームを誰かに操作されたら楽しくない。自分で動かすから人生は面白い。",
+            questions: ["得なら信念を曲げられる", "波風を立てたくない", "本音を隠している"]
+        }
+    ];
+
+    let currentChapter = 0;
+    let yesCount = 0;
+    let userEmotions = [];
+
+    function renderChapter() {
+        const quizArea = document.getElementById('quiz-area');
+        quizArea.innerHTML = '';
+        
+        chapters.forEach((c, index) => {
+            const div = document.createElement('div');
+            div.id = `q${index + 1}`;
+            div.className = 'screen';
+            div.innerHTML = `
+                <div class="chapter-title">${c.title}</div>
+                <div class="chapter-concept">${c.concept}</div>
+                <div class="body-text">${c.body}</div>
+                <div class="child-text">【中学生にも分かる言葉】<br>${c.child}</div>
+                
+                <div class="question-box">
+                    ${c.questions.map((q, i) => `<p>${i+1}. ${q}</p>`).join('')}
+                    <div class="btn-group">
+                        <button onclick="recordAnswer(true)">はい（当てはまる）</button>
+                        <button onclick="recordAnswer(false)">いいえ（分からない）</button>
+                    </div>
+                </div>
+
+                <div class="mini-check">
+                    <p>今のあんたの心境は？</p>
+                    <button class="status-btn" onclick="nextChapter('✔ 気づいた')">□ ✔ 気づいた（自分で選び直したい）</button>
+                    <button class="status-btn" onclick="nextChapter('△ 揺れてる')">□ △ まだ揺れてる（失うのが怖い）</button>
+                    <button class="status-btn" onclick="nextChapter('✖ 否定したい')">□ ✖ 否定したい（波風は立てたくない）</button>
+                </div>
+            `;
+            quizArea.appendChild(div);
+        });
+    }
+
+    function recordAnswer(isYes) {
+        if(isYes) yesCount++;
+        alert("その感覚、忘れんとな。下の三択から心境を選んで次へ進んでや。");
+    }
+
+    function nextChapter(emotion) {
+        userEmotions.push(emotion);
+        if (currentChapter < chapters.length - 1) {
+            currentChapter++;
+            nextScreen(`q${currentChapter + 1}`);
+        } else {
+            nextScreen('outro');
+        }
+    }
+
+    function nextScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    function finish(finalChoice) {
+        const resText = document.getElementById('result-text');
+        let message = `あんたが選んだ最後の道：【${finalChoice}】\n\n`;
+        
+        message += `全十章、お疲れさん。どれも「今の正解」や。\n`;
+        message += `ただし、選んだのが、自分自身のなんやからな。\n\n`;
+        
+        if(yesCount > 15) {
+            message += "今はまだ、誰かの決めた檻の中の方が安心かもしれん。でも、あんたはここに辿り着いた。その「違和感」が、いつかあんたを救うはずや。";
+        } else {
+            message += "あんたは自分の足で立とうとしてる。その道は険しいけど、ハンドルを握ってるのはあんた自身や。そのまま、自分を信じて進め。";
+        }
+
+        document.getElementById('result-text').innerText = message;
+        nextScreen('final-result');
+    }
+
+    renderChapter();
+</script>
+
+</body>
+</html>
