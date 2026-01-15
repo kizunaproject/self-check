@@ -8,7 +8,7 @@
         :root {
             --bg-color: #0d0d0d;
             --text-color: #e0e0e0;
-            --accent-color: #d4af37; /* 落ち着いた金 */
+            --accent-color: #d4af37;
             --border-color: #333;
         }
         body {
@@ -21,12 +21,20 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
+            /* 背景画像の設定：名前を yamato-spirit.jpg に指定 */
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('yamato-spirit.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         #container {
             max-width: 600px;
             width: 90%;
             margin: 40px 0;
             padding: 20px;
+            background: rgba(13, 13, 13, 0.85);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .screen { display: none; }
         .active { display: block; animation: fadeIn 0.5s ease; }
@@ -36,14 +44,14 @@
         .intro-text { white-space: pre-wrap; margin-bottom: 30px; font-size: 0.95rem; }
         .chapter-title { color: var(--accent-color); font-weight: bold; margin-bottom: 5px; }
         .chapter-concept { font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        .body-text { font-size: 0.9rem; margin-bottom: 20px; background: #1a1a1a; padding: 15px; border-radius: 5px; }
+        .body-text { font-size: 0.9rem; margin-bottom: 20px; background: rgba(26, 26, 26, 0.9); padding: 15px; border-radius: 5px; }
         .child-text { font-size: 0.85rem; color: #aaa; margin-bottom: 20px; font-style: italic; }
         
         .question-box { margin: 20px 0; padding: 15px; border: 1px dashed #444; }
         .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
         button {
             padding: 12px;
-            background: transparent;
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--accent-color);
             color: var(--accent-color);
             cursor: pointer;
@@ -54,10 +62,9 @@
         button:hover { background: var(--accent-color); color: #000; }
         
         .mini-check { margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; }
-        .status-btn { background: #333; border: none; color: #ccc; margin-bottom: 5px; text-align: left; }
+        .status-btn { background: #333; border: none; color: #ccc; margin-bottom: 5px; text-align: left; padding: 10px; width: 100%; }
         .status-btn:hover { background: #444; }
 
-        #result { white-space: pre-wrap; }
         .footer { margin-top: 50px; font-size: 0.8rem; text-align: center; color: #666; }
     </style>
 </head>
@@ -84,7 +91,7 @@
     <div id="quiz-area"></div>
 
     <div id="outro" class="screen">
-        <h1 id="outro-title">希心愛（きしんあい）とは。</h1>
+        <h1>希心愛（きしんあい）とは。</h1>
         <div class="intro-text">
 希心愛＝絆
 互いを愛しみ、互いの幸福を、心から希い願うこと。
@@ -112,76 +119,24 @@
 
 <script>
     const chapters = [
-        {
-            title: "第1章：憲法の嘘", concept: "「守ってもらえる」という幻想",
-            body: "憲法や法律は自動的に守る「バリア」ではない。守る覚悟を持たない人は、危機のときに「待つしかない側」になる。",
-            child: "説明書を読むだけではゲームは守ってくれない。最後に頼れるのは自分の判断。",
-            questions: ["国が必ず守ってくれると思っている", "自分で守ることを考えたことがない", "考えるのは偉い人の仕事だと思う"]
-        },
-        {
-            title: "第2章：民主主義の嘘", concept: "「多数＝正解」という罠",
-            body: "考えない民主主義は、ただの空気読みゲームになる。",
-            child: "クラスで多い意見が正しいとは限らない。声が大きい人が正しいわけじゃない。",
-            questions: ["テレビやSNSをそのまま信じる", "周りと違う意見が怖い", "みんなが言うから決める"]
-        },
-        {
-            title: "第3章：税金の嘘", concept: "「みんなのため」という言葉",
-            body: "知らないお金は、知らない所へ流れる。使い道を考えなければ判断力も失っていく。",
-            child: "何に使われたか分からないとお金も考えも取られる。",
-            questions: ["税金の使い道を考えない", "払うしかないと思っている", "文句は悪いことだと思う"]
-        },
-        {
-            title: "第4章：労働の嘘", concept: "「我慢すれば報われる」",
-            body: "我慢は美徳ではない。壊れるまで使う仕組みがあるだけだ。限界を越えても働け、という社会は、人を道具として扱っている。",
-            child: "電池は使いすぎると壊れる。人も同じ。壊れてからでは遅い。",
-            questions: ["しんどくても我慢する", "辞めたら負けだと思う", "自分の代わりはいないと思う"]
-        },
-        {
-            title: "第5章：自己責任の嘘", concept: "「全部お前のせい」",
-            body: "失敗をすべて個人のせいにすると、仕組みの問題が見えなくなる。責め合う社会は、誰も助けられなくなる。",
-            child: "一人だけが悪いとは限らない。ルールが悪いこともある。",
-            questions: ["失敗は努力不足だと思う", "困ってる人にイラつく", "助けは甘えだと思う"]
-        },
-        {
-            title: "第6章：教育の嘘", concept: "「教えられたことが全て」",
-            body: "学校は「考え方」より「言われた通りにする力」を教えがちだ。正解だけを探すと、自分で考えなくなる。",
-            child: "答えは一つとは限らない。質問していい。間違えてもいい。",
-            questions: ["正解は一つだと思う", "質問が怖い", "権威は絶対だと思う"]
-        },
-        {
-            title: "第7章：平和の嘘", concept: "「何もしなくても続く」",
-            body: "平和は放っておけば続くものではない。保たなければ壊れる。知らないふりは、壊れるのを早めるだけだ。",
-            child: "見ないふりは解決じゃない。声を出すことも大事。",
-            questions: ["平和は当たり前だと思う", "面倒な話から逃げる", "知らなくても困らないと思う"]
-        },
-        {
-            title: "第8章：メディアの嘘", concept: "「中立」という仮面",
-            body: "伝えない自由は、伝える自由より強い。何を言わないかで、人の考えは簡単に変わる。",
-            child: "全部を教えてくれるわけじゃない。選ばれた情報だけ見ている。",
-            questions: ["ニュースは全部事実だと思う", "不快な情報は見ない", "疑うのは悪だと思う"]
-        },
-        {
-            title: "第9章：便利さの嘘", concept: "「楽になる代わりに」",
-            body: "便利になるほど、人は考えなくなる。楽と自由は、同じではない。",
-            child: "自動は楽だけど選べない。自由は少し面倒。",
-            questions: ["便利なら何でもいい", "考えなくていいのが楽", "個人情報は仕方ない"]
-        },
-        {
-            title: "第10章：買収の嘘", concept: "「魂のコントローラー」",
-            body: "安心・お金・立場と引き換えに、人は「選ぶ力」を手放す。気づいたとき、人生のハンドルは他人の手にある。",
-            child: "ゲームを誰かに操作されたら楽しくない。自分で動かすから人生は面白い。",
-            questions: ["得なら信念を曲げられる", "波風を立てたくない", "本音を隠している"]
-        }
+        { title: "第1章：憲法の嘘", concept: "「守ってもらえる」という幻想", body: "憲法や法律は、人を自動的に守る「バリア」ではない。守る覚悟を持たない人は、危機のときに「待つしかない側」になる。", child: "説明書を読むだけではゲームは守ってくれない。最後に頼れるのは自分の判断。", questions: ["国が必ず守ってくれると思っている", "自分で守ることを考えたことがない", "考えるのは偉い人の仕事だと思う"] },
+        { title: "第2章：民主主義の嘘", concept: "「多数＝正解」という罠", body: "考えない民主主義は、ただの空気読みゲームになる。", child: "クラスで多い意見が正しいとは限らない。声が大きい人が正しいわけじゃない。", questions: ["テレビやSNSをそのまま信じる", "周りと違う意見が怖い", "みんなが言うから決める"] },
+        { title: "第3章：税金の嘘", concept: "「みんなのため」という言葉", body: "知らないお金は、知らない所へ流れる。使い道を考えなければ判断力も失っていく。", child: "おこづかいを全部渡したらどうなる？何に使われたか分からないと不安。", questions: ["税金の使い道を考えない", "払うしかないと思っている", "文句は悪いことだと思う"] },
+        { title: "第4章：労働の嘘", concept: "「我慢すれば報われる」", body: "我慢は美徳ではない。壊れるまで使う仕組みがあるだけだ。限界を越えても働け、という社会は、人を道具として扱っている。", child: "電池は使いすぎると壊れる。人も同じ。壊れてからでは遅い。", questions: ["しんどくても我慢する", "辞めたら負けだと思う", "自分の代わりはいないと思う"] },
+        { title: "第5章：自己責任の嘘", concept: "「全部お前のせい」", body: "失敗をすべて個人のせいにすると、仕組みの問題が見えなくなる。責め合う社会は、誰も助けられなくなる。", child: "一人だけが悪いとは限らない。ルールが悪いこともある。", questions: ["失敗は努力不足だと思う", "困ってる人にイラつく", "助けは甘えだと思う"] },
+        { title: "第6章：教育の嘘", concept: "「教えられたことが全て」", body: "学校は「考え方」より「言われた通りにする力」を教えがちだ。正解だけを探すと、自分で考えなくなる。", child: "答えは一つとは限らない。質問していい。間違えてもいい。", questions: ["正解は一つだと思う", "質問が怖い", "権威は絶対だと思う"] },
+        { title: "第7章：平和の嘘", concept: "「何もしなくても続く」", body: "平和は放っておけば続くものではない。保たなければ壊れる。知らないふりは、壊れるのを早めるだけだ。", child: "見ないふりは解決じゃない。声を出すことも大事。", questions: ["平和は当たり前だと思う", "面倒な話から逃げる", "知らなくても困らないと思う"] },
+        { title: "第8章：メディアの嘘", concept: "「中立」という仮面", body: "伝えない自由は、伝える自由より強い。何を言わないかで、人の考えは簡単に変わる。", child: "全部を教えてくれるわけじゃない。選ばれた情報だけ見ている。", questions: ["ニュースは全部事実だと思う", "不快な情報は見ない", "疑うのは悪だと思う"] },
+        { title: "第9章：便利さの嘘", concept: "「楽になる代わりに」", body: "便利になるほど、人は考えなくなる。楽と自由は、同じではない。", child: "自動は楽だけど選べない。自由は少し面倒。", questions: ["便利なら何でもいい", "考えなくていいのが楽", "個人情報は仕方ない"] },
+        { title: "第10章：買収の嘘", concept: "「魂のコントローラー」", body: "安心・お金・立場と引き換えに、人は「選ぶ力」を手放す。気づいたとき、人生のハンドルは他人の手にある。", child: "ゲームを誰かに操作されたら楽しくない。自分で動かすから人生は面白い。", questions: ["得なら信念を曲げられる", "波風を立てたくない", "本音を隠している"] }
     ];
 
     let currentChapter = 0;
     let yesCount = 0;
-    let userEmotions = [];
 
     function renderChapter() {
         const quizArea = document.getElementById('quiz-area');
         quizArea.innerHTML = '';
-        
         chapters.forEach((c, index) => {
             const div = document.createElement('div');
             div.id = `q${index + 1}`;
@@ -191,7 +146,6 @@
                 <div class="chapter-concept">${c.concept}</div>
                 <div class="body-text">${c.body}</div>
                 <div class="child-text">【中学生にも分かる言葉】<br>${c.child}</div>
-                
                 <div class="question-box">
                     ${c.questions.map((q, i) => `<p>${i+1}. ${q}</p>`).join('')}
                     <div class="btn-group">
@@ -199,58 +153,35 @@
                         <button onclick="recordAnswer(false)">いいえ（分からない）</button>
                     </div>
                 </div>
-
                 <div class="mini-check">
                     <p>今のあんたの心境は？</p>
-                    <button class="status-btn" onclick="nextChapter('✔ 気づいた')">□ ✔ 気づいた（自分で選び直したい）</button>
-                    <button class="status-btn" onclick="nextChapter('△ 揺れてる')">□ △ まだ揺れてる（失うのが怖い）</button>
-                    <button class="status-btn" onclick="nextChapter('✖ 否定したい')">□ ✖ 否定したい（波風は立てたくない）</button>
+                    <button class="status-btn" onclick="nextChapter()">□ ✔ 気づいた</button>
+                    <button class="status-btn" onclick="nextChapter()">□ △ 揺れてる</button>
+                    <button class="status-btn" onclick="nextChapter()">□ ✖ 否定したい</button>
                 </div>
             `;
             quizArea.appendChild(div);
         });
     }
 
-    function recordAnswer(isYes) {
-        if(isYes) yesCount++;
-        alert("その感覚、忘れんとな。下の三択から心境を選んで次へ進んでや。");
+    function recordAnswer(isYes) { if(isYes) yesCount++; alert("その感覚、忘れんとな。"); }
+    function nextChapter() {
+        if (currentChapter < chapters.length - 1) { currentChapter++; nextScreen(`q${currentChapter + 1}`); } 
+        else { nextScreen('outro'); }
     }
-
-    function nextChapter(emotion) {
-        userEmotions.push(emotion);
-        if (currentChapter < chapters.length - 1) {
-            currentChapter++;
-            nextScreen(`q${currentChapter + 1}`);
-        } else {
-            nextScreen('outro');
-        }
-    }
-
     function nextScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         window.scrollTo(0, 0);
     }
-
     function finish(finalChoice) {
-        const resText = document.getElementById('result-text');
         let message = `あんたが選んだ最後の道：【${finalChoice}】\n\n`;
-        
-        message += `全十章、お疲れさん。どれも「今の正解」や。\n`;
-        message += `ただし、選んだのが、自分自身のなんやからな。\n\n`;
-        
-        if(yesCount > 15) {
-            message += "今はまだ、誰かの決めた檻の中の方が安心かもしれん。でも、あんたはここに辿り着いた。その「違和感」が、いつかあんたを救うはずや。";
-        } else {
-            message += "あんたは自分の足で立とうとしてる。その道は険しいけど、ハンドルを握ってるのはあんた自身や。そのまま、自分を信じて進め。";
-        }
-
+        message += `全十章、お疲れさん。どれも「今の正解」や。ただし、選んだのが自分自身なんやからな。\n\n`;
+        message += (yesCount > 15) ? "今はまだ、誰かの決めた檻の中の方が安心かもしれん。でも、その「違和感」がいつかあんたを救うはずや。" : "あんたは自分の足で立とうとしてる。ハンドルを握ってるのはあんた自身や。そのまま進め。";
         document.getElementById('result-text').innerText = message;
         nextScreen('final-result');
     }
-
     renderChapter();
 </script>
-
 </body>
 </html>
