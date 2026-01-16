@@ -7,7 +7,7 @@
     <style>
         body {
             background-color: #0d0d0d;
-            /* 画像名をあなたのファイル名に完全に一致させています */
+            /* 背景画像をあなたのファイル名に完全に一致させました */
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('ヤマトスピリット.jpg.png');
             background-size: cover;
             background-position: center;
@@ -26,14 +26,12 @@
             padding: 20px;
             background: rgba(13, 13, 13, 0.85);
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .screen { display: none; }
         .active { display: block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         h1 { color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px; }
-        .question-box { margin-bottom: 30px; border-bottom: 1px dashed #555; padding-bottom: 15px; }
-        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
         button {
             padding: 12px;
             background: rgba(212, 175, 55, 0.1);
@@ -52,7 +50,7 @@
 <div id="container">
     <div id="intro" class="screen active">
         <h1>【倭之魂：自らを守る十章】</h1>
-        <div id="resume-section" class="screen">
+        <div id="resume-section" style="display:none;">
             <div class="resume-box">
                 <p>⚠️ 前回の続きがあるみたいや。どうする？</p>
                 <button onclick="resumeQuiz()">続きから始める</button>
@@ -65,15 +63,22 @@
 
     <div id="ch1" class="screen">
         <h2>第1章：国家と憲法</h2>
-        <div class="question-box">
-            <p>Q1. 国が必ず自分を守ってくれると信じている？</p>
-            <div class="btn-group">
-                <button onclick="saveProgress('ch1', 2)">はい</button>
-                <button onclick="saveProgress('ch1', 2)">どちらでもない</button>
-                <button onclick="saveProgress('ch1', 2)">いいえ</button>
-            </div>
+        <p>Q1. 国が必ず自分を守ってくれると信じている？</p>
+        <div class="btn-group">
+            <button onclick="saveProgress('ch2')">はい</button>
+            <button onclick="saveProgress('ch2')">どちらでもない</button>
+            <button onclick="saveProgress('ch2')">いいえ</button>
         </div>
-        <button onclick="showScreen('result')">（デモ用）結果を見る</button>
+    </div>
+
+    <div id="ch2" class="screen">
+        <h2>第2章：自立の精神</h2>
+        <p>Q1. 自分の身は自分で守る覚悟があるか？</p>
+        <div class="btn-group">
+            <button onclick="saveProgress('result')">はい</button>
+            <button onclick="saveProgress('result')">どちらでもない</button>
+            <button onclick="saveProgress('result')">いいえ</button>
+        </div>
     </div>
 
     <div id="result" class="screen">
@@ -84,35 +89,35 @@
 </div>
 
 <script>
-    // ページを読み込んだ時の処理
     window.onload = function() {
-        const savedChapter = localStorage.getItem('yamato_step');
-        if (savedChapter && savedChapter !== 'intro') {
-            document.getElementById('resume-section').classList.add('active');
+        const saved = localStorage.getItem('yamato_step');
+        if (saved && saved !== 'intro') {
+            document.getElementById('resume-section').style.display = 'block';
             document.getElementById('start-btn').style.display = 'none';
         }
     };
 
-    // 画面切り替え
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+        const target = document.getElementById(id);
+        if (target) {
+            target.classList.add('active');
+        } else {
+            document.getElementById('result').classList.add('active');
+        }
         window.scrollTo(0, 0);
     }
 
-    // 進捗を保存して次へ
-    function saveProgress(currentId, nextNum) {
-        localStorage.setItem('yamato_step', 'ch' + nextNum);
-        showScreen('ch' + nextNum);
+    function saveProgress(nextId) {
+        localStorage.setItem('yamato_step', nextId);
+        showScreen(nextId);
     }
 
-    // 続きから
     function resumeQuiz() {
         const saved = localStorage.getItem('yamato_step');
         showScreen(saved);
     }
 
-    // 最初から（記録消去）
     function startFresh() {
         localStorage.removeItem('yamato_step');
         location.reload();
