@@ -7,7 +7,7 @@
     <style>
         body {
             background-color: #0d0d0d;
-            /* 背景画像の設定 */
+            /* 背景画像：あなたのファイル名に合わせています */
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('ヤマトスピリット.jpg.png');
             background-size: cover;
             background-position: center;
@@ -42,9 +42,16 @@
 
     <script>
         const chapters = [
-            "第一章：憲法の嘘", "第二章：民主主義の罠", "第三章：教育の檻", "第四章：情報の毒", 
-            "第五章：食の危機", "第六章：貨幣の支配", "第七章：医療の闇", "第八章：歴史の改竄", 
-            "第九章：家族の崩壊", "第十章：倭之魂の覚醒"
+            { title: "第一章：憲法の嘘", msg: "その感覚、忘れなや。" },
+            { title: "第二章：民主主義の罠", msg: "多数決が正義とは限らんで。" },
+            { title: "第三章：教育の檻", msg: "教えられたことが全てやない。" },
+            { title: "第四章：情報の毒", msg: "目に見えるもんだけが真実か？" },
+            { title: "第五章：食の危機", msg: "身体はあんたの食べたもんで出来てる。" },
+            { title: "第六章：貨幣の支配", msg: "金に魂まで売ったらあかんで。" },
+            { title: "第七章：医療の闇", msg: "本当の健康は誰が守るんや？" },
+            { title: "第八章：歴史の改竄", msg: "根っこを奪われた木は枯れるだけや。" },
+            { title: "第九章：家族の崩壊", msg: "守るべきもんは、すぐ側にある。" },
+            { title: "第十章：倭之魂の覚醒", msg: "ようここまで来たな。誇りを持て。" }
         ];
         
         for(let c=1; c<=10; c++) {
@@ -54,15 +61,20 @@
                 
                 document.write(`
                 <div id="ch${c}_${q}" class="screen">
-                    <h2>${chapters[c-1]} - 問${q}</h2>
+                    <h2>${chapters[c-1].title} - 問${q}</h2>
                     <p>この問いに、あんたの魂はどう答える？</p>
                     <div class="btn-group">
-                        <button onclick="answer('${nextId}')">はい</button>
-                        <button onclick="answer('${nextId}')">どちらでもない</button>
-                        <button onclick="answer('${nextId}')">いいえ</button>
+                        <button onclick="answer('${nextId}', ${c-1})">はい</button>
+                        <button onclick="answer('${nextId}', ${c-1})">どちらでもない</button>
+                        <button onclick="answer('${nextId}', ${c-1})">いいえ</button>
                     </div>
                 </div>`);
             }
+        }
+
+        function answer(nextId, index) {
+            alert(chapters[index].msg); // 章ごとのメッセージを表示
+            saveProgress(nextId);
         }
     </script>
 
@@ -74,12 +86,6 @@
 </div>
 
 <script>
-    // 答えを押した時の「聞き返し」メッセージ
-    function answer(nextId) {
-        alert("その感覚、忘れなや。"); // ここが復活させた「聞き返し」です
-        saveProgress(nextId);
-    }
-
     window.onload = function() {
         const saved = localStorage.getItem('yamato_step');
         if (saved && saved !== 'intro') {
@@ -87,23 +93,17 @@
             document.getElementById('start-btn').style.display = 'none';
         }
     };
-
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         const target = document.getElementById(id);
-        if (target) {
-            target.classList.add('active');
-        } else {
-            document.getElementById('result').classList.add('active');
-        }
+        if (target) { target.classList.add('active'); }
+        else { document.getElementById('result').classList.add('active'); }
         window.scrollTo(0, 0);
     }
-
     function saveProgress(nextId) {
         localStorage.setItem('yamato_step', nextId);
         showScreen(nextId);
     }
-
     function resumeQuiz() { showScreen(localStorage.getItem('yamato_step')); }
     function startFresh() { localStorage.removeItem('yamato_step'); location.reload(); }
 </script>
