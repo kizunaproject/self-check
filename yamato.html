@@ -7,7 +7,7 @@
     <style>
         body {
             background-color: #0d0d0d;
-            /* 画像名をあなたのファイル名に完全に一致させています */
+            /* 背景画像の設定 */
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('ヤマトスピリット.jpg.png');
             background-size: cover;
             background-position: center;
@@ -19,79 +19,67 @@
             justify-content: center;
             min-height: 100vh;
         }
-        #container {
-            width: 90%;
-            max-width: 600px;
-            margin: 40px 0;
-            padding: 20px;
-            background: rgba(13, 13, 13, 0.85);
-            border-radius: 15px;
-        }
+        #container { width: 95%; max-width: 600px; margin: 20px 0; padding: 20px; background: rgba(13, 13, 13, 0.85); border-radius: 15px; }
         .screen { display: none; }
         .active { display: block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        h1 { color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px; }
-        .question-box { margin-bottom: 30px; border-bottom: 1px dashed #555; padding-bottom: 15px; }
-        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        button {
-            padding: 12px;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid #d4af37;
-            color: #d4af37;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
+        h1 { color: #d4af37; border-bottom: 1px solid #d4af37; font-size: 1.2rem; }
+        h2 { color: #ffeb3b; font-size: 1.1rem; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
+        button { padding: 15px; background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; color: #d4af37; border-radius: 5px; cursor: pointer; font-weight: bold; }
         button:hover { background: #d4af37; color: black; }
         .resume-box { background: #222; padding: 15px; border: 2px solid #ffeb3b; border-radius: 10px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
-
 <div id="container">
     <div id="intro" class="screen active">
         <h1>【倭之魂：自らを守る十章】</h1>
-        <div id="resume-section" style="display:none;">
-            <div class="resume-box">
-                <p>⚠️ 前回の続きがあるみたいや。どうする？</p>
-                <button onclick="resumeQuiz()">続きから始める</button>
-                <button onclick="startFresh()" style="border-color:#888; color:#888;">最初からやり直す</button>
-            </div>
-        </div>
+        <div id="resume-section" style="display:none;"><div class="resume-box"><p>⚠️ 続きからやるか？</p><button onclick="resumeQuiz()">続きから始める</button><button onclick="startFresh()">最初から</button></div></div>
         <p>自らの魂をチェックする十章。準備はいいか。</p>
-        <button id="start-btn" onclick="showScreen('ch1')">チェックを開始する</button>
+        <button id="start-btn" onclick="showScreen('ch1_1')">チェックを開始する</button>
     </div>
 
-    <div id="ch1" class="screen">
-        <h2>第1章：憲法の嘘</h2>
-        <div class="question-box"><p>Q1. 国が必ず自分を守ってくれると信じている？</p>
-        <div class="btn-group"><button onclick="saveProgress('ch1_2')">はい</button><button onclick="saveProgress('ch1_2')">どちらでもない</button><button onclick="saveProgress('ch1_2')">いいえ</button></div></div>
-    </div>
-    <div id="ch1_2" class="screen">
-        <h2>第1章：憲法の嘘</h2>
-        <div class="question-box"><p>Q2. 自分で守ることを考えたことがない？</p>
-        <div class="btn-group"><button onclick="saveProgress('ch1_3')">はい</button><button onclick="saveProgress('ch1_3')">どちらでもない</button><button onclick="saveProgress('ch1_3')">いいえ</button></div></div>
-    </div>
-    <div id="ch1_3" class="screen">
-        <h2>第1章：憲法の嘘</h2>
-        <div class="question-box"><p>Q3. 考えるのは偉い人の仕事だと思う？</p>
-        <div class="btn-group"><button onclick="saveProgress('ch2')">はい</button><button onclick="saveProgress('ch2')">どちらでもない</button><button onclick="saveProgress('ch2')">いいえ</button></div></div>
-    </div>
-
-    <div id="ch2" class="screen">
-        <h2>第2章：自立の精神</h2>
-        <p>（ここから先の質問文を、おっさんの言葉で埋めていくんやな）</p>
-        <div class="btn-group"><button onclick="saveProgress('result')">次の章へ（準備中）</button></div>
-    </div>
+    <script>
+        const chapters = [
+            "第一章：憲法の嘘", "第二章：民主主義の罠", "第三章：教育の檻", "第四章：情報の毒", 
+            "第五章：食の危機", "第六章：貨幣の支配", "第七章：医療の闇", "第八章：歴史の改竄", 
+            "第九章：家族の崩壊", "第十章：倭之魂の覚醒"
+        ];
+        
+        for(let c=1; c<=10; c++) {
+            for(let q=1; q<=3; q++) {
+                let nextId = (q === 3) ? `ch${c+1}_1` : `ch${c}_${q+1}`;
+                if(c === 10 && q === 3) nextId = 'result';
+                
+                document.write(`
+                <div id="ch${c}_${q}" class="screen">
+                    <h2>${chapters[c-1]} - 問${q}</h2>
+                    <p>この問いに、あんたの魂はどう答える？</p>
+                    <div class="btn-group">
+                        <button onclick="answer('${nextId}')">はい</button>
+                        <button onclick="answer('${nextId}')">どちらでもない</button>
+                        <button onclick="answer('${nextId}')">いいえ</button>
+                    </div>
+                </div>`);
+            }
+        }
+    </script>
 
     <div id="result" class="screen">
         <h1>診断完了</h1>
-        <p>これが今のあんたの魂の現在地や。</p>
-        <button onclick="startFresh()">記録を消して最初から</button>
+        <p>全十章の問いに答えたな。これが今のあんたの魂の現在地や。忘れるなよ、自らを守ることを。</p>
+        <button onclick="startFresh()">記録を消して最初に戻る</button>
     </div>
 </div>
 
 <script>
+    // 答えを押した時の「聞き返し」メッセージ
+    function answer(nextId) {
+        alert("その感覚、忘れなや。"); // ここが復活させた「聞き返し」です
+        saveProgress(nextId);
+    }
+
     window.onload = function() {
         const saved = localStorage.getItem('yamato_step');
         if (saved && saved !== 'intro') {
@@ -99,15 +87,23 @@
             document.getElementById('start-btn').style.display = 'none';
         }
     };
+
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+        const target = document.getElementById(id);
+        if (target) {
+            target.classList.add('active');
+        } else {
+            document.getElementById('result').classList.add('active');
+        }
         window.scrollTo(0, 0);
     }
+
     function saveProgress(nextId) {
         localStorage.setItem('yamato_step', nextId);
         showScreen(nextId);
     }
+
     function resumeQuiz() { showScreen(localStorage.getItem('yamato_step')); }
     function startFresh() { localStorage.removeItem('yamato_step'); location.reload(); }
 </script>
