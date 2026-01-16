@@ -19,155 +19,118 @@
             min-height: 100vh;
         }
         #container {
-            width: 95%;
-            max-width: 600px;
-            margin: 20px 0;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            border: 2px solid #d4af37;
+            width: 95%; max-width: 600px; margin: 20px 0; padding: 25px;
+            background: rgba(0, 0, 0, 0.85); border-radius: 15px; border: 2px solid #d4af37;
         }
         .screen { display: none; }
         .active { display: block; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        h1 { color: #d4af37; font-size: 1.5rem; margin-bottom: 20px; text-align: center; }
         h2 { color: #d4af37; font-size: 1.2rem; border-bottom: 1px solid #d4af37; padding-bottom: 5px; }
-        .concept-box { background: rgba(212, 175, 55, 0.15); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-        .question-text { font-size: 1.4rem; font-weight: bold; margin: 30px 0; line-height: 1.5; text-align: center; }
+        .concept-box { background: rgba(212, 175, 55, 0.15); padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 1.1rem; }
+        .question-text { font-size: 1.4rem; font-weight: bold; margin: 30px 0; text-align: center; }
+        .msg-text { font-size: 1.2rem; color: #d4af37; text-align: center; margin-bottom: 20px; font-weight: bold; }
 
         .btn-group { display: flex; flex-direction: column; gap: 15px; }
         button {
-            padding: 20px;
-            background: rgba(212, 175, 55, 0.1);
-            border: 2px solid #d4af37;
-            color: #d4af37;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.2rem;
+            padding: 18px; background: rgba(212, 175, 55, 0.1); border: 2px solid #d4af37;
+            color: #d4af37; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.2rem;
         }
         button:hover { background: #d4af37; color: black; }
-        .restart-msg { text-align: center; margin-bottom: 20px; font-size: 1.1rem; color: #d4af37; }
+        .status-btn { text-align: left; background: rgba(255,255,255,0.1); font-size: 1rem; padding: 15px; }
     </style>
 </head>
 <body>
-
 <div id="container">
-    <div id="resume-screen" class="screen">
-        <h1>続きから再開しますか？</h1>
-        <p class="restart-msg" id="resume-info"></p>
-        <div class="btn-group">
-            <button onclick="resumeQuiz()">続きから再開する</button>
-            <button onclick="startFresh()">最初からやり直す</button>
-        </div>
-    </div>
-
     <div id="quiz-area"></div>
 </div>
 
 <script>
     const chapters = [
-        { title: "第1章：憲法の嘘", concept: "「守ってもらえる」という幻想", questions: ["国が必ず守ってくれると思っている", "自分で守ることを考えたことがない", "考えるのは偉い人の仕事だと思う"] },
-        { title: "第2章：民主主義の罠", concept: "「多数＝正解」という罠", questions: ["テレビやSNSをそのまま信じる", "周りと違う意見が怖い", "みんなが言うから決める"] },
-        { title: "第3章：税金の嘘", concept: "「みんなのため」という言葉", questions: ["税金の使い道を考えない", "払うしかないと思っている", "文句は悪いことだと思う"] },
-        { title: "第4章：労働の嘘", concept: "「我慢すれば報われる」", questions: ["しんどくても我慢する", "辞めたら負けだと思う", "自分の代わりはいないと思う"] },
-        { title: "第5章：自己責任の嘘", concept: "「全部お前のせい」", questions: ["失敗は努力不足だと思う", "困ってる人にイラつく", "助けは甘えだと思う"] },
-        { title: "第6章：教育の嘘", concept: "「教えられたことが全て」", questions: ["正解は一つだと思う", "質問が怖い", "権威は絶対だと思う"] },
-        { title: "第7章：平和の嘘", concept: "「何もしなくても続く」", questions: ["平和は当たり前だと思う", "面倒な話から逃げる", "知らなくても困らないと思う"] },
-        { title: "第8章：メディアの嘘", concept: "「中立」という仮面", questions: ["ニュースは全部事実だと思う", "不快な情報は見ない", "疑うのは悪だと思う"] },
-        { title: "第9章：便利さの嘘", concept: "「楽になる代わりに」", questions: ["便利なら何でもいい", "考えなくていいのが楽", "個人情報は仕方ない"] },
-        { title: "第10章：買収の嘘", concept: "「魂のコントローラー」", questions: ["得なら信念を曲げられる", "波風を立てたくない", "本音を隠している"] }
+        { title: "第1章：憲法の嘘", concept: "「守ってもらえる」という幻想", msg: "その感覚、忘れなや。", questions: ["国が必ず守ってくれると思っている", "自分で守ることを考えたことがない", "考えるのは偉い人の仕事だと思う"] },
+        { title: "第2章：民主主義の罠", concept: "「多数＝正解」という罠", msg: "多数決が正義とは限らんで。", questions: ["テレビやSNSをそのまま信じる", "周りと違う意見が怖い", "みんなが言うから決める"] },
+        { title: "第3章：税金の嘘", concept: "「みんなのため」という言葉", msg: "使い道を知らなきゃ、魂まで取られるで。", questions: ["税金の使い道を考えない", "払うしかないと思っている", "文句は悪いことだと思う"] },
+        { title: "第4章：労働の嘘", concept: "「我慢すれば報われる」", msg: "電池は使いすぎると壊れる。人も同じや。", questions: ["しんどくても我慢する", "辞めたら負けだと思う", "自分の代わりはいないと思う"] },
+        { title: "第5章：自己責任の嘘", concept: "「全部お前のせい」", msg: "仕組みが悪いこともあるんや。", questions: ["失敗は努力不足だと思う", "困ってる人にイラつく", "助けは甘えだと思う"] },
+        { title: "第6章：教育の嘘", concept: "「教えられたことが全て」", msg: "答えは一つとは限らんで。", questions: ["正解は一つだと思う", "質問が怖い", "権威は絶対だと思う"] },
+        { title: "第7章：平和の嘘", concept: "「何もしなくても続く」", msg: "見ないふりは、壊れるのを早めるだけや。", questions: ["平和は当たり前だと思う", "面倒な話から逃げる", "知らなくても困らないと思う"] },
+        { title: "第8章：メディアの嘘", concept: "「中立」という仮面", msg: "選ばれた情報だけ、見せられてるんや。", questions: ["ニュースは全部事実だと思う", "不快な情報は見ない", "疑うのは悪だと思う"] },
+        { title: "第9章：便利さの嘘", concept: "「楽になる代わりに」", msg: "楽と自由は、同じではないんや。", questions: ["便利なら何でもいい", "考えなくていいのが楽", "個人情報は仕方ない"] },
+        { title: "第10章：買収の嘘", concept: "「魂のコントローラー」", msg: "人生のハンドルは、自分で握るもんや。", questions: ["得なら信念を曲げられる", "波風を立てたくない", "本音を隠している"] }
     ];
 
-    let currentChapter = 0;
-    let currentQuestion = 0;
-
-    // 起動時に保存データがあるか確認
-    window.onload = function() {
-        const savedCh = localStorage.getItem('yamato_chapter');
-        const savedQ = localStorage.getItem('yamato_question');
-        
-        if (savedCh !== null && savedQ !== null) {
-            currentChapter = parseInt(savedCh);
-            currentQuestion = parseInt(savedQ);
-            
-            // 第1章の1問目以外なら「再開画面」を出す
-            if (currentChapter > 0 || currentQuestion > 0) {
-                document.getElementById('resume-info').innerText = `${chapters[currentChapter].title} の途中からや。`;
-                showScreen('resume-screen');
-            } else {
-                render();
-            }
-        } else {
-            render();
-        }
-    };
+    let currentChapter = parseInt(localStorage.getItem('yamato_ch')) || 0;
+    let currentQuestion = parseInt(localStorage.getItem('yamato_q')) || 0;
+    let isReviewing = false;
 
     function render() {
         const area = document.getElementById('quiz-area');
-        area.innerHTML = `
-            <div class="screen active">
-                <h2>${chapters[currentChapter].title}</h2>
-                <div class="concept-box">${chapters[currentChapter].concept}</div>
-                <div class="question-text">
-                    問 ${currentQuestion + 1}<br>
-                    ${chapters[currentChapter].questions[currentQuestion]}
-                </div>
-                <div class="btn-group">
-                    <button onclick="next()">はい</button>
-                    <button onclick="next()">どちらでもない</button>
-                    <button onclick="next()">いいえ</button>
-                </div>
-            </div>
-        `;
-        // 現在の場所を保存
-        localStorage.setItem('yamato_chapter', currentChapter);
-        localStorage.setItem('yamato_question', currentQuestion);
+        const ch = chapters[currentChapter];
+
+        if (isReviewing) {
+            // 章の終わりの「気づき」画面
+            area.innerHTML = `
+                <div class="screen active">
+                    <h2>${ch.title} 完了</h2>
+                    <div class="msg-text">『${ch.msg}』</div>
+                    <p>今のあんたの心境は？</p>
+                    <div class="btn-group">
+                        <button class="status-btn" onclick="finishChapter()">□ ✔ 気づいた（選び直したい）</button>
+                        <button class="status-btn" onclick="finishChapter()">□ △ まだ揺れてる（怖い）</button>
+                        <button class="status-btn" onclick="finishChapter()">□ ✖ 否定したい（波風は嫌や）</button>
+                    </div>
+                </div>`;
+        } else {
+            // 設問画面
+            area.innerHTML = `
+                <div class="screen active">
+                    <h2>${ch.title} - 問 ${currentQuestion + 1}</h2>
+                    <div class="concept-box">${ch.concept}</div>
+                    <div class="question-text">${ch.questions[currentQuestion]}</div>
+                    <div class="btn-group">
+                        <button onclick="answer()">はい</button>
+                        <button onclick="answer()">どちらでもない</button>
+                        <button onclick="answer()">いいえ</button>
+                    </div>
+                </div>`;
+        }
+        localStorage.setItem('yamato_ch', currentChapter);
+        localStorage.setItem('yamato_q', currentQuestion);
     }
 
-    function next() {
+    function answer() {
         if (currentQuestion < 2) {
             currentQuestion++;
-        } else if (currentChapter < 9) {
-            currentChapter++;
-            currentQuestion = 0;
         } else {
-            showResult();
-            return;
+            isReviewing = true;
         }
         render();
         window.scrollTo(0,0);
     }
 
-    function showResult() {
-        localStorage.removeItem('yamato_chapter'); // 終わったら消す
-        localStorage.removeItem('yamato_question');
+    function finishChapter() {
+        isReviewing = false;
+        currentQuestion = 0;
+        if (currentChapter < 9) {
+            currentChapter++;
+            render();
+        } else {
+            showFinal();
+        }
+        window.scrollTo(0,0);
+    }
+
+    function showFinal() {
+        localStorage.clear();
         document.getElementById('quiz-area').innerHTML = `
             <div class="screen active">
                 <h1>診断完了</h1>
-                <p style="font-size:1.2rem; text-align:center;">全十章、完走お疲れさん。<br>これが今のあんたの魂の現在地や。</p>
-                <button onclick="startFresh()" style="width:100%">最初に戻る</button>
-            </div>
-        `;
+                <p style="font-size:1.2rem; text-align:center;">全十章、完走お疲れさん。<br>ハンドルを握ってるのはあんた自身や。</p>
+                <button onclick="location.reload()" style="width:100%">最初に戻る</button>
+            </div>`;
     }
 
-    function resumeQuiz() {
-        render();
-    }
-
-    function startFresh() {
-        currentChapter = 0;
-        currentQuestion = 0;
-        localStorage.removeItem('yamato_chapter');
-        localStorage.removeItem('yamato_question');
-        render();
-    }
-
-    function showScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
+    render();
 </script>
 </body>
 </html>
