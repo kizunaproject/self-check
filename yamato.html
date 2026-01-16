@@ -7,7 +7,7 @@
     <style>
         body {
             background-color: #0d0d0d;
-            /* 背景画像をあなたのファイル名に完全に一致させました */
+            /* 画像名をあなたのファイル名に完全に一致させています */
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('ヤマトスピリット.jpg.png');
             background-size: cover;
             background-position: center;
@@ -31,7 +31,8 @@
         .active { display: block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         h1 { color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px; }
-        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .question-box { margin-bottom: 30px; border-bottom: 1px dashed #555; padding-bottom: 15px; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
         button {
             padding: 12px;
             background: rgba(212, 175, 55, 0.1);
@@ -62,23 +63,25 @@
     </div>
 
     <div id="ch1" class="screen">
-        <h2>第1章：国家と憲法</h2>
-        <p>Q1. 国が必ず自分を守ってくれると信じている？</p>
-        <div class="btn-group">
-            <button onclick="saveProgress('ch2')">はい</button>
-            <button onclick="saveProgress('ch2')">どちらでもない</button>
-            <button onclick="saveProgress('ch2')">いいえ</button>
-        </div>
+        <h2>第1章：憲法の嘘</h2>
+        <div class="question-box"><p>Q1. 国が必ず自分を守ってくれると信じている？</p>
+        <div class="btn-group"><button onclick="saveProgress('ch1_2')">はい</button><button onclick="saveProgress('ch1_2')">どちらでもない</button><button onclick="saveProgress('ch1_2')">いいえ</button></div></div>
+    </div>
+    <div id="ch1_2" class="screen">
+        <h2>第1章：憲法の嘘</h2>
+        <div class="question-box"><p>Q2. 自分で守ることを考えたことがない？</p>
+        <div class="btn-group"><button onclick="saveProgress('ch1_3')">はい</button><button onclick="saveProgress('ch1_3')">どちらでもない</button><button onclick="saveProgress('ch1_3')">いいえ</button></div></div>
+    </div>
+    <div id="ch1_3" class="screen">
+        <h2>第1章：憲法の嘘</h2>
+        <div class="question-box"><p>Q3. 考えるのは偉い人の仕事だと思う？</p>
+        <div class="btn-group"><button onclick="saveProgress('ch2')">はい</button><button onclick="saveProgress('ch2')">どちらでもない</button><button onclick="saveProgress('ch2')">いいえ</button></div></div>
     </div>
 
     <div id="ch2" class="screen">
         <h2>第2章：自立の精神</h2>
-        <p>Q1. 自分の身は自分で守る覚悟があるか？</p>
-        <div class="btn-group">
-            <button onclick="saveProgress('result')">はい</button>
-            <button onclick="saveProgress('result')">どちらでもない</button>
-            <button onclick="saveProgress('result')">いいえ</button>
-        </div>
+        <p>（ここから先の質問文を、おっさんの言葉で埋めていくんやな）</p>
+        <div class="btn-group"><button onclick="saveProgress('result')">次の章へ（準備中）</button></div>
     </div>
 
     <div id="result" class="screen">
@@ -96,33 +99,17 @@
             document.getElementById('start-btn').style.display = 'none';
         }
     };
-
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        const target = document.getElementById(id);
-        if (target) {
-            target.classList.add('active');
-        } else {
-            document.getElementById('result').classList.add('active');
-        }
+        document.getElementById(id).classList.add('active');
         window.scrollTo(0, 0);
     }
-
     function saveProgress(nextId) {
         localStorage.setItem('yamato_step', nextId);
         showScreen(nextId);
     }
-
-    function resumeQuiz() {
-        const saved = localStorage.getItem('yamato_step');
-        showScreen(saved);
-    }
-
-    function startFresh() {
-        localStorage.removeItem('yamato_step');
-        location.reload();
-    }
+    function resumeQuiz() { showScreen(localStorage.getItem('yamato_step')); }
+    function startFresh() { localStorage.removeItem('yamato_step'); location.reload(); }
 </script>
-
 </body>
 </html>
