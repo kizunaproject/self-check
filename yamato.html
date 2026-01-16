@@ -54,7 +54,7 @@
                 if(c === 10 && q === 3) nextId = 'result';
                 document.write(`
                 <div id="ch${c}_${q}" class="screen">
-                    <h2>${chapters[c-1].title} - 問${q}</h2>
+                     <h2>${chapters[c-1].title} - 問${q}</h2>
                     <div class="btn-group">
                         <button onclick="alert('${chapters[c-1].msg}'); showScreen('${nextId}')">はい</button>
                         <button onclick="alert('${chapters[c-1].msg}'); showScreen('${nextId}')">どちらでもない</button>
