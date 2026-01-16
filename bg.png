@@ -7,7 +7,6 @@
     <style>
         body {
             background-color: #0d0d0d;
-            /* あなたの今のファイル名「背景.png」に一文字ずつ合わせました */
             background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('背景.png');
             background-size: cover;
             background-position: center;
@@ -36,9 +35,7 @@
         <p>自らの魂をチェックする十章。準備はいいか。</p>
         <button onclick="showScreen('ch1_1')">チェックを開始する</button>
     </div>
-
     <script>
-        // おっさんの言葉（聞き返し）のリスト
         const chapters = [
             { title: "第一章：憲法の嘘", msg: "その感覚、忘れなや。" },
             { title: "第二章：民主主義の罠", msg: "多数決が正義とは限らんで。" },
@@ -51,8 +48,6 @@
             { title: "第九章：家族の崩壊", msg: "守るべきもんは、すぐ側にある。" },
             { title: "第十章：倭之魂の覚醒", msg: "ようここまで来たな。誇りを持て。" }
         ];
-        
-        // 30問を自動で作る
         for(let c=1; c<=10; c++) {
             for(let q=1; q<=3; q++) {
                 let nextId = (q === 3) ? `ch${c+1}_1` : `ch${c}_${q+1}`;
@@ -68,7 +63,6 @@
                 </div>`);
             }
         }
-
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             const t = document.getElementById(id);
@@ -76,12 +70,6 @@
             window.scrollTo(0, 0);
         }
     </script>
-
-    <div id="result" class="screen">
-        <h1>診断完了</h1>
-        <p>全十章、完走お疲れさん。これが今のあんたの魂の現在地や。</p>
-        <button onclick="location.reload()">最初に戻る</button>
-    </div>
 </div>
 </body>
 </html>
