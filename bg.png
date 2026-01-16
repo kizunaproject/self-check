@@ -7,8 +7,8 @@
     <style>
         body {
             background-color: #0d0d0d;
-            /* ここを bg.png に合わせました */
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('bg.png');
+            /* あなたの今のファイル名「背景.png」に一文字ずつ合わせました */
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('背景.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -25,7 +25,7 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         h1 { color: #d4af37; border-bottom: 1px solid #d4af37; font-size: 1.2rem; }
         .btn-group { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
-        button { padding: 15px; background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; color: #d4af37; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        button { padding: 15px; background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; color: #d4af37; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1rem; }
         button:hover { background: #d4af37; color: black; }
     </style>
 </head>
@@ -38,6 +38,7 @@
     </div>
 
     <script>
+        // おっさんの言葉（聞き返し）のリスト
         const chapters = [
             { title: "第一章：憲法の嘘", msg: "その感覚、忘れなや。" },
             { title: "第二章：民主主義の罠", msg: "多数決が正義とは限らんで。" },
@@ -51,6 +52,7 @@
             { title: "第十章：倭之魂の覚醒", msg: "ようここまで来たな。誇りを持て。" }
         ];
         
+        // 30問を自動で作る
         for(let c=1; c<=10; c++) {
             for(let q=1; q<=3; q++) {
                 let nextId = (q === 3) ? `ch${c+1}_1` : `ch${c}_${q+1}`;
@@ -66,6 +68,7 @@
                 </div>`);
             }
         }
+
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             const t = document.getElementById(id);
