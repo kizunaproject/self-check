@@ -6,13 +6,13 @@
     <title>倭之魂：自らを守る十章</title>
     <style>
         body {
-            background-color: #0d0d0d;
-            background-image: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0)), url('bg.png');
+            background-color: #eee;
+            background-image: url('bg.png'); /* 背景を加工なしの明るさで表示 */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: #ffffff;
-            font-family: sans-serif;
+            font-family: 'Hiragino Mincho ProN', 'MS Mincho', serif;
             margin: 0;
             display: flex;
             justify-content: center;
@@ -20,72 +20,124 @@
         }
         #container {
             width: 95%; max-width: 600px; margin: 20px 0; padding: 25px;
-            background: rgba(0, 0, 0, 0.85); border-radius: 15px; border: 2px solid #d4af37;
+            background: rgba(0, 0, 0, 0.8); /* 文字を読みやすくするための透かし */
+            border-radius: 15px; border: 3px solid #d4af37;
         }
         .screen { display: none; }
-        .active { display: block; animation: fadeIn 0.4s; }
+        .active { display: block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        h2 { color: #d4af37; font-size: 1.2rem; border-bottom: 1px solid #d4af37; padding-bottom: 5px; }
-        .concept-box { background: rgba(212, 175, 55, 0.15); padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 1.1rem; }
-        .question-text { font-size: 1.4rem; font-weight: bold; margin: 30px 0; text-align: center; }
-        .msg-text { font-size: 1.2rem; color: #d4af37; text-align: center; margin-bottom: 20px; font-weight: bold; }
-
+        h1 { color: #d4af37; font-size: 1.4rem; text-align: center; border-bottom: 1px solid #d4af37; padding-bottom: 10px; }
+        h2 { color: #d4af37; font-size: 1.3rem; margin-top: 0; }
+        .intro-text, .msg-text { font-size: 1.2rem; line-height: 1.8; margin-bottom: 20px; white-space: pre-wrap; }
+        .question-text { font-size: 1.5rem; font-weight: bold; margin: 30px 0; text-align: center; color: #fff; text-shadow: 2px 2px 4px #000; }
+        
         .btn-group { display: flex; flex-direction: column; gap: 15px; }
         button {
-            padding: 18px; background: rgba(212, 175, 55, 0.1); border: 2px solid #d4af37;
+            padding: 18px; background: rgba(212, 175, 55, 0.2); border: 2px solid #d4af37;
             color: #d4af37; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.2rem;
         }
         button:hover { background: #d4af37; color: black; }
-        .status-btn { text-align: left; background: rgba(255,255,255,0.1); font-size: 1rem; padding: 15px; }
+        .footer { margin-top: 40px; font-size: 0.9rem; text-align: right; color: #ccc; border-top: 1px solid #444; padding-top: 10px; }
     </style>
 </head>
 <body>
 <div id="container">
+    <div id="intro" class="screen active">
+        <h1>【倭之魂：檻を壊し、自らを守る十章】</h1>
+        <div class="intro-text">
+倭（やまと）とは何か！？
+
+倭とは、
+人が禾（いね＝命の糧）を食し、
+女（＝自分以外の他者）と共に生きる道。
+
+奪い合う生き方ではない。
+誰かに従うだけの生き方でもない。
+自分で考えて、自分で選択し、他者と守り合いながら生きる力を
+自分の中に取り戻す道である。
+        </div>
+        <button onclick="startQuiz()" style="width:100%">自らの魂をCHECKする</button>
+    </div>
+
     <div id="quiz-area"></div>
+
+    <div id="outro" class="screen">
+        <h1>希心愛（きしんあい）とは</h1>
+        <div class="intro-text">
+希心愛＝絆
+互いを愛（いつく）しみ、互いの幸福（しあわせ）を
+心から希（ねがい）い願うこと。
+それが、倭之魂の終着駅やねん。
+
+🔚 最終セルフ確認
+この十章を読み終えた今の自分に、一つだけ丸をつけてほしい。
+        </div>
+        <div class="btn-group">
+            <button onclick="showFinal('自分に戻したい')">誰かに任せていた人生を、自分に戻したい</button>
+            <button onclick="showFinal('考えることはやめない')">まだ怖いが、考えることはやめない</button>
+            <button onclick="showFinal('何も変わらなくていい')">何も変わらなくていいと思う</button>
+        </div>
+    </div>
+
+    <div id="final-result" class="screen">
+        <h1>診断結果</h1>
+        <div id="result-text" class="msg-text" style="text-align:center;"></div>
+        <button onclick="restart()" style="width:100%">もう一度自分を見つめる</button>
+        <div class="footer">
+            2026年1月15日<br>名も無き底辺の ただのオッサンより
+        </div>
+    </div>
 </div>
 
 <script>
     const chapters = [
-        { title: "第1章：憲法の嘘", concept: "「守ってもらえる」という幻想", msg: "その感覚、忘れなや。", questions: ["国が必ず守ってくれると思っている", "自分で守ることを考えたことがない", "考えるのは偉い人の仕事だと思う"] },
-        { title: "第2章：民主主義の罠", concept: "「多数＝正解」という罠", msg: "多数決が正義とは限らんで。", questions: ["テレビやSNSをそのまま信じる", "周りと違う意見が怖い", "みんなが言うから決める"] },
-        { title: "第3章：税金の嘘", concept: "「みんなのため」という言葉", msg: "使い道を知らなきゃ、魂まで取られるで。", questions: ["税金の使い道を考えない", "払うしかないと思っている", "文句は悪いことだと思う"] },
-        { title: "第4章：労働の嘘", concept: "「我慢すれば報われる」", msg: "電池は使いすぎると壊れる。人も同じや。", questions: ["しんどくても我慢する", "辞めたら負けだと思う", "自分の代わりはいないと思う"] },
-        { title: "第5章：自己責任の嘘", concept: "「全部お前のせい」", msg: "仕組みが悪いこともあるんや。", questions: ["失敗は努力不足だと思う", "困ってる人にイラつく", "助けは甘えだと思う"] },
-        { title: "第6章：教育の嘘", concept: "「教えられたことが全て」", msg: "答えは一つとは限らんで。", questions: ["正解は一つだと思う", "質問が怖い", "権威は絶対だと思う"] },
-        { title: "第7章：平和の嘘", concept: "「何もしなくても続く」", msg: "見ないふりは、壊れるのを早めるだけや。", questions: ["平和は当たり前だと思う", "面倒な話から逃げる", "知らなくても困らないと思う"] },
-        { title: "第8章：メディアの嘘", concept: "「中立」という仮面", msg: "選ばれた情報だけ、見せられてるんや。", questions: ["ニュースは全部事実だと思う", "不快な情報は見ない", "疑うのは悪だと思う"] },
-        { title: "第9章：便利さの嘘", concept: "「楽になる代わりに」", msg: "楽と自由は、同じではないんや。", questions: ["便利なら何でもいい", "考えなくていいのが楽", "個人情報は仕方ない"] },
-        { title: "第10章：買収の嘘", concept: "「魂のコントローラー」", msg: "人生のハンドルは、自分で握るもんや。", questions: ["得なら信念を曲げられる", "波風を立てたくない", "本音を隠している"] }
+        { title: "第1章：憲法の嘘", msg: "その感覚、忘れなや。", questions: ["国が必ず守ってくれると思っている", "自分で守ることを考えたことがない", "考えるのは偉い人の仕事だと思う"] },
+        { title: "第2章：民主主義の罠", msg: "多数決が正義とは限らんで。", questions: ["テレビやSNSをそのまま信じる", "周りと違う意見が怖い", "みんなが言うから決める"] },
+        { title: "第3章：税金の嘘", msg: "使い道を知らなきゃ、魂まで取られるで。", questions: ["税金の使い道を考えない", "払うしかないと思っている", "文句は悪いことだと思う"] },
+        { title: "第4章：労働の嘘", msg: "電池は使いすぎると壊れる。人も同じや。", questions: ["しんどくても我慢する", "辞めたら負けだと思う", "自分の代わりはいないと思う"] },
+        { title: "第5章：自己責任の嘘", msg: "仕組みが悪いこともあるんや。", questions: ["失敗は努力不足だと思う", "困ってる人にイラつく", "助けは甘えだと思う"] },
+        { title: "第6章：教育の嘘", msg: "答えは一つとは限らんで。", questions: ["正解は一つだと思う", "質問が怖い", "権威は絶対だと思う"] },
+        { title: "第7章：平和の嘘", msg: "見ないふりは、壊れるのを早めるだけや。", questions: ["平和は当たり前だと思う", "面倒な話から逃げる", "知らなくても困らないと思う"] },
+        { title: "第8章：メディアの嘘", msg: "選ばれた情報だけ、見せられてるんや。", questions: ["ニュースは全部事実だと思う", "不快な情報は見ない", "疑うのは悪だと思う"] },
+        { title: "第9章：便利さの嘘", msg: "楽と自由は、同じではないんや。", questions: ["便利なら何でもいい", "考えなくていいのが楽", "個人情報は仕方ない"] },
+        { title: "第10章：買収の嘘", msg: "人生のハンドルは、自分で握るもんや。", questions: ["得なら信念を曲げられる", "波風を立てたくない", "本音を隠している"] }
     ];
 
     let currentChapter = parseInt(localStorage.getItem('yamato_ch')) || 0;
     let currentQuestion = parseInt(localStorage.getItem('yamato_q')) || 0;
     let isReviewing = false;
 
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function startQuiz() {
+        render();
+    }
+
     function render() {
         const area = document.getElementById('quiz-area');
         const ch = chapters[currentChapter];
+        showScreen('quiz-area');
 
         if (isReviewing) {
-            // 章の終わりの「気づき」画面
             area.innerHTML = `
                 <div class="screen active">
                     <h2>${ch.title} 完了</h2>
                     <div class="msg-text">『${ch.msg}』</div>
-                    <p>今のあんたの心境は？</p>
+                    <p style="text-align:center;">今のあんたの心境は？</p>
                     <div class="btn-group">
-                        <button class="status-btn" onclick="finishChapter()">□ ✔ 気づいた（選び直したい）</button>
-                        <button class="status-btn" onclick="finishChapter()">□ △ まだ揺れてる（怖い）</button>
-                        <button class="status-btn" onclick="finishChapter()">□ ✖ 否定したい（波風は嫌や）</button>
+                        <button onclick="nextChapter()">□ ✔ 気づいた</button>
+                        <button onclick="nextChapter()">□ △ まだ揺れてる</button>
+                        <button onclick="nextChapter()">□ ✖ 否定したい</button>
                     </div>
                 </div>`;
         } else {
-            // 設問画面
             area.innerHTML = `
                 <div class="screen active">
                     <h2>${ch.title} - 問 ${currentQuestion + 1}</h2>
-                    <div class="concept-box">${ch.concept}</div>
                     <div class="question-text">${ch.questions[currentQuestion]}</div>
                     <div class="btn-group">
                         <button onclick="answer()">はい</button>
@@ -99,38 +151,33 @@
     }
 
     function answer() {
-        if (currentQuestion < 2) {
-            currentQuestion++;
-        } else {
-            isReviewing = true;
-        }
+        if (currentQuestion < 2) { currentQuestion++; } else { isReviewing = true; }
         render();
         window.scrollTo(0,0);
     }
 
-    function finishChapter() {
+    function nextChapter() {
         isReviewing = false;
         currentQuestion = 0;
-        if (currentChapter < 9) {
-            currentChapter++;
-            render();
-        } else {
-            showFinal();
-        }
+        if (currentChapter < 9) { currentChapter++; render(); } else { showScreen('outro'); }
         window.scrollTo(0,0);
     }
 
-    function showFinal() {
+    function showFinal(choice) {
         localStorage.clear();
-        document.getElementById('quiz-area').innerHTML = `
-            <div class="screen active">
-                <h1>診断完了</h1>
-                <p style="font-size:1.2rem; text-align:center;">全十章、完走お疲れさん。<br>ハンドルを握ってるのはあんた自身や。</p>
-                <button onclick="location.reload()" style="width:100%">最初に戻る</button>
-            </div>`;
+        document.getElementById('result-text').innerText = `「${choice}」\n\nその決意、大事にな。人生のハンドルは、もうあんたの手の中にある。`;
+        showScreen('final-result');
     }
 
-    render();
+    function restart() {
+        localStorage.clear();
+        location.reload();
+    }
+
+    // 再開処理
+    if(currentChapter > 0 || currentQuestion > 0) {
+        startQuiz();
+    }
 </script>
 </body>
 </html>
